@@ -69,7 +69,7 @@ class TradeSample(Client):
         if obj is None:
             self.position = 0
         else:
-            for pos in obj.pos_list:
+            for pos in obj.positions:
                 if pos.exchange == self.exchange and pos.ticker is self.ticker:
                     self.position = pos.position
                     self.direction = pos.posi_direction
