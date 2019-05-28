@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 # This script will parse puyuan.yml and
 # 1. create working directories for each docker.
 # 2. generate docker-compose.yml
@@ -37,7 +39,7 @@ with open(puyuan_config_file) as fin:
 
 docker_compose_file = 'docker-compose.yml'
 with open(docker_compose_file, 'w') as fout:
-    yaml.dump(docker_compose_obj, fout, allow_unicode=True, default_flow_style=False)
+    yaml.safe_dump(docker_compose_obj, fout, allow_unicode=True, default_flow_style=False)
 
 os.system('docker-compose pull')
 os.system('docker-compose up --build -d')
