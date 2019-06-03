@@ -5,10 +5,10 @@
     - '5000-5007:5000-5007'
     command: >
       bash -c "linker_master &
-               gun start -t mr -f market1 && 
-               gun start -t tr -f trade1 &&
-               gun start -t mg -a ctp2 -g ctp -r market1 && 
-               gun run -t tg -a ctp1 -g ctp -r trade1"
+               gun start mr -f market1 && 
+               gun start tr -f trade1 &&
+               gun start mg -a femas2 -g femas -r market1 && 
+               gun run tg -a femas1 -g femas -r trade1"
   config:
     master_rep: tcp://127.0.0.1:5000
     master_rep_port: 5000
