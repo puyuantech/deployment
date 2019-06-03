@@ -66,17 +66,19 @@
       heartbeat_interval_in_milliseconds: 1000
       max_allowed_missing_heatbeats: 5
     accounts:
-      ctp1:
-        broker_id: '9999'
-        front_uri: tcp://180.168.146.187:10001
-        gateway_name: ctp
+      femas1:
+        broker_id: '0129'
+        front_uri: tcp://58.246.171.89:50602
+        gateway_name: femas
         gateway_type: TRADE_GATEWAY
+        investor_id: 
         password: 
         user_id: 
-      ctp2:
-        broker_id: '9999'
-        front_uri: tcp://180.168.146.187:10011
-        gateway_name: ctp
+      femas2:
+        broker_id: '0129'
+        exchange_id: SHFE
+        front_uri: tcp://58.246.171.89:50603
+        gateway_name: femas
         gateway_type: MARKET_GATEWAY
         password: 
         user_id: 

@@ -113,7 +113,7 @@ if __name__ == '__main__':
     # 策略变量
     ts.long_window = 1000
     ts.short_window = 50
-    ts.tg = 'ctp1'
+    ts.tg = 'femas1'
     ts.ticker = 'rb1906'
     ts.exchange = ExchangeID.SHFE
 
