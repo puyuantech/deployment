@@ -77,7 +77,7 @@ Traderslink 将服务端的各种功能封装成模块，主要的模块包括�
     pip install tlclient
     ```
 2. 运行策略  
-在 Traderslink 服务启动后，进入示例策略文件夹，并运行下面的策略示例（示例策略依赖于 numpy 和 pandas 软件包，请预先安装）
+在 Traderslink 服务启动后，进入示例策略文件夹，并运行下面的策略示例（示例策略依赖于 numpy 和 pandas 软件包，请预先安装），日志文件保存在 /shared/log/ 文件夹中，如果不存在请先创建
     ```
     cd sample_strategy
     python doublema.py

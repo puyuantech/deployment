@@ -114,7 +114,7 @@ if __name__ == '__main__':
     ts.long_window = 1000
     ts.short_window = 50
     ts.tg = 'ctp1'
-    ts.ticker = 'rb1906'
+    ts.ticker = 'rb1912'
     ts.exchange = ExchangeID.SHFE
 
     # 目前不支持获取历史数据，需要从其他数据源获取

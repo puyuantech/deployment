@@ -4,11 +4,12 @@
     ports: 
     - '5000-5007:5000-5007'
     command: >
-      bash -c "linker_master &
-               gun start -t mr -f market1 && 
-               gun start -t tr -f trade1 &&
-               gun start -t mg -a ctp2 -g ctp -r market1 && 
-               gun run -t tg -a ctp1 -g ctp -r trade1"
+      bash -c "gun start master &&
+               gun start mr -f market1 && 
+               gun start tr -f trade1 &&
+               gun start mg -a ctp2 -g ctp -r market1 && 
+               gun start tg -a ctp1 -g ctp -r trade1 &&
+               gun join master"
   config:
     master_rep: tcp://127.0.0.1:5000
     master_rep_port: 5000
@@ -68,15 +69,18 @@
     accounts:
       ctp1:
         broker_id: '9999'
-        front_uri: tcp://180.168.146.187:10001
+        front_uri: tcp://180.168.146.187:10101
         gateway_name: ctp
         gateway_type: TRADE_GATEWAY
-        password: 
-        user_id: 
+        app_id: 'simnow_client_test'
+        auth_code: '0000000000000000'
+        user_product_info: 'tl-v0.0.1'
+        password: ''
+        user_id: ''
       ctp2:
         broker_id: '9999'
-        front_uri: tcp://180.168.146.187:10011
+        front_uri: tcp://180.168.146.187:10111
         gateway_name: ctp
         gateway_type: MARKET_GATEWAY
-        password: 
-        user_id: 
+        password: ''
+        user_id: ''
