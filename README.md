@@ -62,8 +62,6 @@ Traderslink 将服务端的各种功能封装成模块，主要的模块包括�
     docker exec -it dtl-main bash
     gun status
     ```
-    将其中的 dtl-main 替换为当前启动的 Docker 名称，当前的 Docker 名称如下图所示
-    ![start](resource/start.jpg)
     
 4. 关闭 Docker，停止交易系统
     ```bash
