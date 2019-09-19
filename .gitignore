@@ -1,4 +1,5 @@
 docker-compose.yml
 .DS_Store
 
-temp
+*/temp
+*/data/*
