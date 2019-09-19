@@ -4,7 +4,7 @@
 
 ### 产品架构	
 Traderslink 将服务端的各种功能封装成模块，主要的模块包括交易路由、行情路由、交易网关、行情网关、订单管理模块、仓位管理模块等，每个模块有唯一标识：fist_name。  
-![Infrastructure](https://github.com/puyuantech/deployment/blob/master/resource/infrastructure.png)
+![Infrastructure](resource/infrastructure.png)
 
 * 交易网关（TRADE_GATEWAY）  
 服务端的一个模块，负责与交易柜台连通，处理委托的请求、响应、回报。一个客户端可以与多个交易网关对应，一个交易网关负责对应一个交易柜台。交易网关负责处理以下流程：
@@ -45,45 +45,46 @@ Traderslink 将服务端的各种功能封装成模块，主要的模块包括�
 ### 启动与停止 Traderslink 服务
 
 1. 打开命令行终端，执行 start.py
-    ```
-    cd deployment
+    ```bash
+    cd traderslink
     python start.py
     ```
     通过以上命令，初始交易系统、获取最新 Docker image、启动 Docker。
 
 2. 可用以下命令查看当前的 Docker 列表，以验证 Docker 是否正确启动.
-    ```
+    ```bash
     docker container ls -a
     ```
     如果 Docker 正确启动，交易系统服务就可以正常使用了。
 
 3. 进入 Docker 查看系统运行状态
-    ```
-    docker exec -it deployment_traderslink_1 bash
+    ```bash
+    docker exec -it dtl-main bash
     gun status
     ```
-    将其中的 “deployment_traderslink_1” 替换为当前启动的 Docker 名称，当前的 Docker 名称如下图所示
-    ![start](https://github.com/puyuantech/deployment/blob/master/resource/start.jpg)
+    将其中的 dtl-main 替换为当前启动的 Docker 名称，当前的 Docker 名称如下图所示
+    ![start](resource/start.jpg)
     
 4. 关闭 Docker，停止交易系统
-    ```
+    ```bash
     docker-compose down
     ```
 
 ## 编写策略并开始交易
 ### 运行样例策略
 1. 使用 pip 下载 Traderslink 的 Python SDK
-    ```
+    ```bash
     pip install tlclient
     ```
 2. 运行策略  
 在 Traderslink 服务启动后，进入示例策略文件夹，并运行下面的策略示例（示例策略依赖于 numpy 和 pandas 软件包，请预先安装），日志文件保存在 /shared/log/ 文件夹中，如果不存在请先创建
-    ```
-    cd sample_strategy
+    ```bash
+    cd traderslink/sample_strategy
     python doublema.py
     ```
 3. 编写策略  
 可以按照上述示例编写自己的策略并实验。
+
 ### Python SDK 功能
 Traderslink Python SDK 目前提供了如下接口，详细用法请查看相关文档
 * 普通委托
