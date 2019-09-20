@@ -30,3 +30,5 @@ docker run -p 8888:8888 \
       --name dtl-chronograf \
       chronograf:1.3.8 --influxdb-url=http://influxdb:8086
 ```
+
+## run grafana
