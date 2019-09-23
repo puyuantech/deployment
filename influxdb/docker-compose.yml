@@ -1,0 +1,35 @@
+version: '3'
+services:
+
+  influxdb:
+    image: influxdb:1.3.5
+    container_name: dtl-influxdb
+    volumes:
+      - ./data/influxdb:/var/lib/influxdb
+      - ./etc/influxdb.conf:/etc/influxdb/influxdb.conf:ro
+    ports:
+      - 8086:8086
+    environment:
+      - INFLUXDB_CONFIG_PATH=/etc/influxdb/influxdb.conf
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: dtl-grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+    links:
+      - influxdb
+
+  chronograf:
+    image: chronograf:1.3.8
+    container_name: dtl-chronograf
+    environment:
+      INFLUXDB_URL: http://influxdb:8086
+    volumes:
+      - ./data/chronograf:/var/lib/chronograf
+    ports:
+      - 8888:8888
+    links:
+      - influxdb
