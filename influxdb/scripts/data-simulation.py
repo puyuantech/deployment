@@ -27,7 +27,7 @@ def push_stock(client):
                 'price': price,
             }, 'time': int(t*to_u),
         })
-    client.write_points(points)
+    client.write_points(points, time_precision='u')
 
 def push_balance(client):
     points = list()
@@ -51,7 +51,7 @@ def push_balance(client):
         },
         'time': int(t*to_u),
     })
-    client.write_points(points)
+    client.write_points(points, time_precision='u')
 
 
 def ticker(interval, func, *args):
@@ -98,7 +98,6 @@ def main(host, port):
         t.start()
     print('started!')
     for t in threads:
-        t.join()
         t.join()
 
 def signal_handler(signum=None, frame=None):
