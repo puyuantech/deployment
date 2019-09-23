@@ -59,9 +59,7 @@ def ticker(interval, func, *args):
     # which is thread-safe if you don't modify anything manually.
     global stopping
     while not stopping:
-        print('prefunc')
         func(*args)
-        print('afterfunc')
         time.sleep(interval)
 
 
