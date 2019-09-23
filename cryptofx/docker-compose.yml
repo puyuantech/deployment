@@ -1,0 +1,33 @@
+dtl-mysql:
+  image: mysql:latest
+  container_name: dtl-mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=puyuantech
+  ports:
+    - 3306:3306
+  volumes:
+    - ./shared/mysql/logs:/logs
+    - ./shared/mysql/conf:/etc/mysql/conf.d
+    - ./shared/mysql/data:/var/lib/
+
+dtl-main:
+  image: puyuantech/cryptofx:latest
+  container_name: cryptofx
+  ports:
+    - 9000-9007:9000-9007
+  links:
+    - dtl-mysql
+  command: >
+      bash -c "pip3 install sqlalchemy
+              pip3 install cryptography &&
+              sleep 3 &&
+              gun db create && gun db init &&
+              gun start master &&
+              gun start mr -f market1 &&
+              gun start tr -f trade1 &&
+              gun account new -a pybm -c access_key:hDrjsozgECTBkekXf6gMVTZM secret_key:Yxd3ROdVYXnsHsHiL_vMI9vpU8eZJDpQ9KNXtfolW7db7tmW &&
+              gun start mg -g huobi -p cryptofx &&
+              gun start tg -g bitmex -a pybm -p cryptofx &&
+              gun join master"
+  volumes:
+    - ./shared:/shared
