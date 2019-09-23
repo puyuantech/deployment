@@ -1,0 +1,122 @@
+{
+    "master_rep": "tcp://0.0.0.0:9000",
+    "config_version": "0.3",
+    "gateway_reconnection_policy": {
+        "max_retry_times": 20,
+        "notification_methods": {
+            "email": "",
+            "slack": ""
+        },
+        "retry_interval_in_seconds": 5
+    },
+    "env": "env1",
+    "master_rep_port": 9000,
+    "modules": [
+        {
+            "fist_type": "MASTER",
+            "fist_name": "master",
+            "addrs": {
+                "Zmq_PUB": {
+                    "comm_method": "TCP",
+                    "port": 9001
+                },
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9000
+                }
+            },
+            "source_id": 0
+        },
+        {
+            "fist_type": "MARKET_ROUTER",
+            "fist_name": "market1",
+            "addrs": {
+                "Zmq_PULL": {
+                    "comm_method": "TCP",
+                    "port": 9002
+                },
+                "Zmq_PUB": {
+                    "comm_method": "TCP",
+                    "port": 9004
+                },
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9003
+                }
+            },
+            "source_id": 1
+        },
+        {
+            "fist_type": "TRADE_ROUTER",
+            "fist_name": "trade1",
+            "addrs": {
+                "Zmq_PULL": {
+                    "comm_method": "TCP",
+                    "port": 9005
+                },
+                "Zmq_PUB": {
+                    "comm_method": "TCP",
+                    "port": 9007
+                },
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9006
+                }
+            },
+            "source_id": 2
+        },
+        {
+            "fist_type": "BASKET_SERVER",
+            "fist_name": "basket",
+            "source_id": 3
+        },
+        {
+            "fist_type": "ALGO_SERVER",
+            "fist_name": "twap",
+            "source_id": 4
+        },
+        {
+            "fist_type": "RISK_MANAGER",
+            "fist_name": "rms1",
+            "source_id": 5
+        },
+        {
+            "fist_type": "ORDER_MANAGER",
+            "fist_name": "oms1",
+            "source_id": 6
+        }
+    ],
+    "accounts": {
+    },
+    "env_infos": [
+        {
+            "public_ip": "127.0.0.1",
+            "env_name": "env1",
+            "private_ip": "0.0.0.0"
+        },
+        {
+            "public_ip": "127.0.0.1",
+            "env_name": "env2",
+            "private_ip": "0.0.0.0"
+        }
+    ],
+    "notification_center": {
+        "redis_backup": {
+            "host": "127.0.0.1",
+            "port": 6379,
+            "password": "",
+            "key": "notification"
+        }
+    },
+    "database": {
+        "development": {
+            "username": "root",
+            "xport": 3306,
+            "db": "db_core",
+            "host": "dtl-mysql",
+            "password": "puyuantech",
+            "port": 3306
+        },
+        "mode": "development"
+    }
+}
