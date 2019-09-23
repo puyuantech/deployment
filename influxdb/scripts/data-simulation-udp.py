@@ -2,7 +2,6 @@ import time
 import math
 import threading
 import argparse
-import signal
 
 from influxdb import InfluxDBClient
 
@@ -27,7 +26,8 @@ def push_stock(client):
                 'price': price,
             }, 'time': int(t*to_u),
         })
-    client.write_points(points)
+    client.write_points(points, time_precision='u')
+
 
 def push_balance(client):
     points = list()
@@ -51,24 +51,20 @@ def push_balance(client):
         },
         'time': int(t*to_u),
     })
-    client.write_points(points)
+    client.write_points(points, time_precision='u')
 
 
 def ticker(interval, func, *args):
     # it's said that the client is using requests
     # which is thread-safe if you don't modify anything manually.
-    global stopping
     while not stopping:
-        print('prefunc')
         func(*args)
-        print('afterfunc')
         time.sleep(interval)
 
 
 def main(host, port):
-    client = InfluxDBClient(host=host, port=port, database='trader', retries=100)
+    client = InfluxDBClient(host=host, port=port, database='trader', retries=100, use_udp=True, udp_port=8089)
     client.create_database('trader')
-    print('database created')
     client.query('CREATE CONTINUOUS QUERY stock_1s_slice ON trader '
                  'BEGIN '
                  'SELECT LAST(price) AS "price", '
@@ -77,34 +73,26 @@ def main(host, port):
                  'INTO profit_1s '
                  'FROM stocks GROUP BY time(1s,1s),stock_name '
                  'END')
-    print('CONTINUOUS QUERY stock_1s_slice created')
     client.query('CREATE CONTINUOUS QUERY balance_1s_slice ON trader '
                  'BEGIN '
                  'SELECT LAST(available) AS "available" '
                  'INTO profit_1s '
                  'FROM balance GROUP BY time(1s,1s),stock_name '
                  'END')
-    print('CONTINUOUS QUERY balance_1s_slice created')
-
-    signal.signal(signal.SIGTERM, signal_handler)
-    signal.signal(signal.SIGINT, signal_handler)
-
-    threads = [
-        threading.Thread(target=ticker, args=(0.5, push_stock, client)),
-        threading.Thread(target=ticker, args=(2, push_balance, client))
-    ]
-    for t in threads:
-        t.setDaemon(True)
-        t.start()
-    print('started!')
-    for t in threads:
-        t.join()
-        t.join()
-
-def signal_handler(signum=None, frame=None):
-    global stopping
-    stopping = True
-    print('Interrupted {}'.format(signum))
+    th_stock = threading.Thread(
+        target=ticker, args=(0.5, push_stock, client))
+    th_stock.start()
+    th_balance = threading.Thread(
+        target=ticker, args=(2, push_balance, client))
+    th_balance.start()
+    while True:
+        try:
+            th_stock.join()
+            th_balance.join()
+            break
+        except KeyboardInterrupt:
+            global stopping
+            stopping = True
 
 
 def parse_args():
@@ -120,6 +108,5 @@ def parse_args():
 
 
 if __name__ == '__main__':
-
     args = parse_args()
     main(host=args.host, port=args.port)
