@@ -26,6 +26,7 @@ we chose `grafana/grafana:latest`
 ```
 docker run -d -p 3000:3000 \
       --net=traderslink \
+      -v $PWD/data/grafana:/var/lib/grafana \
       --name dtl-grafana \
       grafana/grafana:latest
 ```
