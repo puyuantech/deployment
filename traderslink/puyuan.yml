@@ -76,12 +76,12 @@
         app_id: 'simnow_client_test'
         auth_code: '0000000000000000'
         user_product_info: 'tl-v0.0.1'
-        password: ''
-        user_id: ''
+        password: 'PuyuanKeji'
+        user_id: '153320'
       ctp2:
         broker_id: '9999'
         front_uri: tcp://180.168.146.187:10111
         gateway_name: ctp
         gateway_type: MARKET_GATEWAY
-        password: ''
-        user_id: ''
+        password: 'PuyuanKeji'
+        user_id: '153320'

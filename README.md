@@ -37,10 +37,10 @@ Traderslink 将服务端的各种功能封装成模块，主要的模块包括�
     ```
 2. 填写交易账号  
     在 puyuan.yml 的 "accounts" 标签下填写 CTP 账号。
-    - 模拟账户，请申请 SimNow 仿真交易账号并填入 user_id 和 password（SimNow 注册后需要修改一次密码，第二天账号才能正常交易）。
+    - 模拟账户，请申请 SimNow 仿真交易账号并填入 user_id 和 password（SimNow 注册后需要修改一次密码）。
     - 实盘账户，需要将 broker_id，front_uri 等修改为实盘的配置，并填入正确的 user_id 和 password。
 
-    交易系统需要使用 5000~5007 端口，请预留这些端口以便系统正常使用。
+    交易系统需要使用 9000~9007 端口，请预留这些端口以便系统正常使用。
 
 ### 启动与停止 Traderslink 服务
 
