@@ -11,12 +11,14 @@ docker network create traderslink
 we chose `influxdb:1.3.5`
 
 ```
-docker run -d -p 8086:8086 -p 8089:8089/udp \
-      --net=traderslink \
-      -v $PWD/data/influxdb:/var/lib/influxdb \
-      -v $PWD/etc/influxdb.conf:/etc/influxdb/influxdb.conf:ro \
-      --name dtl-influxdb \
-      influxdb:1.3.5 -config /etc/influxdb/influxdb.conf
+docker run -d \
+    -p 8086:8086 \
+    -p 8089:8089/udp \
+    --net=traderslink \
+    -v $PWD/data/influxdb:/var/lib/influxdb \
+    -v $PWD/etc/influxdb.conf:/etc/influxdb/influxdb.conf:ro \
+    --name dtl-influxdb \
+    influxdb:1.3.5 -config /etc/influxdb/influxdb.conf
 ```
 
 ## run grafana
@@ -24,11 +26,13 @@ docker run -d -p 8086:8086 -p 8089:8089/udp \
 we chose `grafana/grafana:latest`
 
 ```
-docker run -d -p 3000:3000 \
-      --net=traderslink \
-      -v $PWD/data/grafana:/var/lib/grafana \
-      --name dtl-grafana \
-      grafana/grafana:latest
+docker run -d \
+    --user $(id -u) \
+    -p 3000:3000 \
+    --net=traderslink \
+    -v $PWD/data/grafana:/var/lib/grafana \
+    --name dtl-grafana \
+    grafana/grafana:latest
 ```
 
 ## run main
@@ -36,11 +40,12 @@ docker run -d -p 3000:3000 \
 we chose `puyuantech/cryptofx:latest`
 
 ```
-docker run -d -it -p 9000-9007:9000-9007 \
-      --net=traderslink \
-      -v $PWD/data/main:/shared \
-      --name dtl-main \
-      puyuantech/cryptofx:latest
+docker run -d -it \
+    -p 9000-9007:9000-9007 \
+    --net=traderslink \
+    -v $PWD/data/main:/shared \
+    --name dtl-main \
+    puyuantech/cryptofx:latest
 ```
 
 ## dtl-main setting
@@ -75,6 +80,6 @@ run md_client to subscribes
 ### add dashboard:
 
     panel test setting:
-    select ask_price1, ask_price2, bid_price1, bid_price2 from MktSnapOpt where ticker = 'btc/usdt' and exchange = '103'
-    select open, high, low, close from MktBarGen where ticker = 'btc/usdt' and exchange = '103'
-    select price from MktTrade where ticker = 'btc/usdt' and exchange = '103'
+    select ask_price1, ask_price2, bid_price1, bid_price2 from MktSnapOpt where ticker = 'btc/usdt' and exchange = 'BINANCE'
+    select open, high, low, close from MktBarGen where ticker = 'btc/usdt' and exchange = 'HUOBI'
+    select price from MktTrade where ticker = 'btc/usdt' and exchange = 'OKEX'
