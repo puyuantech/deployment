@@ -8,7 +8,7 @@ docker network create traderslink
 
 ## run influxdb
 
-we chose `influxdb:1.3.5`
+we chose `influxdb:1.7.8`
 
 ```
 docker run -d \
@@ -18,7 +18,7 @@ docker run -d \
     -v $PWD/data/influxdb:/var/lib/influxdb \
     -v $PWD/etc/influxdb.conf:/etc/influxdb/influxdb.conf:ro \
     --name dtl-influxdb \
-    influxdb:1.3.5 -config /etc/influxdb/influxdb.conf
+    influxdb:1.7.8 -config /etc/influxdb/influxdb.conf
 ```
 
 ## run chronograf
