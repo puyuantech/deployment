@@ -1,4 +1,4 @@
-# CryptoFX 部署文档
+# CryptoFX 极速部署文档
 
 ## 〇.环境要求
 
@@ -15,7 +15,7 @@
 
     pip3 install docker-compose
 
-### 启动容器 (初始化过程大约需要 10 秒)
+### 启动容器 (初始化过程大约需要 15 秒)
 
     docker-compose up -d
 
