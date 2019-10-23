@@ -124,7 +124,6 @@ we chose `puyuantech/cryptofx:latest`
 
 ```
 docker run -d -it \
-    -p 9000-9007:9000-9007 \
     -v $PWD/data/main:/shared \
     --name dtl-recoder \
     puyuantech/cryptofx:latest
