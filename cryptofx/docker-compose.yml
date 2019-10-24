@@ -16,11 +16,10 @@ services:
   dtl-grafana:
     image: grafana/grafana:latest
     container_name: dtl-grafana
-    user: $(id -u):$(id -g)
     ports:
       - 3000:3000
     links:
-      - influxdb
+      - dtl-influxdb
     volumes:
       - ./data/grafana:/var/lib/grafana
 
@@ -28,10 +27,10 @@ services:
     image: puyuantech/cryptofx:latest
     container_name: dtl-main
     environment:
-      TLCLIENT_LOG_LEVEL=info
+      - TLCLIENT_LOG_LEVEL=info
     ports:
       - 9000-9007:9000-9007
     links:
-      - influxdb
+      - dtl-influxdb
     volumes:
       - ./data/main:/shared
