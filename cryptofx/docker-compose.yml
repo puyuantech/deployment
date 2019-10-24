@@ -1,36 +1,37 @@
 version: '3'
 services:
 
-  influxdb:
+  dtl-influxdb:
     image: influxdb:1.7.8
     container_name: dtl-influxdb
-    volumes:
-      - ./data/influxdb:/var/lib/influxdb
-      - ./etc/influxdb.conf:/etc/influxdb/influxdb.conf:ro
+    environment:
+      - INFLUXDB_CONFIG_PATH=/etc/influxdb/influxdb.conf
     ports:
       - 8086:8086
       - 8089:8089/udp
-    environment:
-      - INFLUXDB_CONFIG_PATH=/etc/influxdb/influxdb.conf
+    volumes:
+      - ./data/influxdb:/var/lib/influxdb
+      - ./etc/influxdb.conf:/etc/influxdb/influxdb.conf:ro
 
-  grafana:
+  dtl-grafana:
     image: grafana/grafana:latest
     container_name: dtl-grafana
+    user: $(id -u)
     ports:
       - 3000:3000
+    links:
+      - influxdb
     volumes:
       - ./data/grafana:/var/lib/grafana
-    links:
-      - influxdb
 
-  cryptofx:
+  dtl-main:
     image: puyuantech/cryptofx:latest
     container_name: dtl-main
-    volumes:
-      - ./data/main:/shared
-    ports:
-      - 9000-9007:9000-9007
     environment:
       TLCLIENT_LOG_LEVEL=info
+    ports:
+      - 9000-9007:9000-9007
     links:
       - influxdb
+    volumes:
+      - ./data/main:/shared
