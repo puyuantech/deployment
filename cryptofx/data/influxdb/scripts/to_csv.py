@@ -39,7 +39,6 @@ def get_cmds(start_date, end_date):
 def run_cmd(cmd):
     print('[run_cmd] start (cmd){}'.format(cmd))
     os.system(cmd)
-    print('[run_cmd] end (cmd){}'.format(cmd))
 
 if __name__ == "__main__":
     cmds = get_cmds(get_yesterday(), get_today())
