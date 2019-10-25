@@ -55,6 +55,13 @@ docker run -d -it \
     puyuantech/cryptofx:latest
 ```
 
+## dtl-influxdb setting
+
+init trader database
+```
+docker exec dtl-influxdb sh "/var/lib/influxdb/init-influxdb.sh"
+```
+
 ## dtl-main setting
 
 ```
@@ -127,6 +134,13 @@ docker run -d -it \
     -v $PWD/data/main:/shared \
     --name dtl-recoder \
     puyuantech/cryptofx:latest
+```
+
+## dtl-influxdb setting
+
+init trader database
+```
+docker exec dtl-influxdb sh "/var/lib/influxdb/init-influxdb.sh"
 ```
 
 ## dtl-main setting
