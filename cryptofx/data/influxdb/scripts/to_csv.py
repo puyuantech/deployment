@@ -31,8 +31,8 @@ def get_cmds(start_date, end_date):
             if table == 'MktBarGen' and exchange == 'BITMEX':
                 continue
             filename = f'{TABLES[table]}-{EXCHANGES[exchange]}-{end_date}.csv'
-            sql = f"select * from {table} where exchange={exchange} and time>'{start_time}' and time<'{end_time}'"
-            cmd = f'{docker_cmd} "{sql}" -format csv > /var/lib/influxdb/{filename}'
+            sql = f"select * from {table} where exchange='{exchange}' and time>'{start_time}' and time<'{end_time}'"
+            cmd = f'{docker_cmd} "{sql}" -format csv > ../backups/{filename}'
             cmds.append(cmd)
     return cmds
 
