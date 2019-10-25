@@ -9,13 +9,13 @@ class MdTest(Client):
         self.init_market('market1')
 
     def on_mkt_snap(self, obj, msg_type, frame_nano):
-        self.logger.info(obj)
+        self.logger.debug(obj)
 
     def on_mkt_bar(self, obj, msg_type, frame_nano):
-        self.logger.info(obj)
+        self.logger.debug(obj)
 
     def on_mkt_trade(self, obj, msg_type, frame_nano):
-        self.logger.info(obj)
+        self.logger.debug(obj)
 
 if __name__ == '__main__':
     md = MdTest()

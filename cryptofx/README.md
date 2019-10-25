@@ -72,9 +72,8 @@ gun start mg -g bitmex -p cryptofx
 gun start mg -g huobi -p cryptofx
 gun start mg -g okex -p cryptofx
 gun start rr --rt influxdb --host dtl-influxdb --port 8086
+python3 /shared/scripts/md_test.py
 ```
-
-run md_client to subscribes
 
 # 闪兑系统分布式部署指南
 
@@ -152,9 +151,8 @@ gun start mg -g binance -p cryptofx
 gun start mg -g bitmex -p cryptofx
 gun start mg -g huobi -p cryptofx
 gun start mg -g okex -p cryptofx
+python3 /shared/scripts/md_test.py
 ```
-
-run md_client to subscribes
 
 ## dtl-recoder setting
 
