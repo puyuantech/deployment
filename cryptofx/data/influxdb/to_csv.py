@@ -23,6 +23,7 @@ def get_yesterday():
 
 def get_cmds(start_date, end_date):
     cmds = []
+    docker_cmd = 'docker exec dtl-influxdb influx -database trader -precision=rfc3339 -execute'
     start_time = start_date + ' 16:00:00'
     end_time = end_date + ' 16:00:00'
     for table in TABLES.keys():
@@ -30,8 +31,8 @@ def get_cmds(start_date, end_date):
             if table == 'MktBarGen' and exchange == 'BITMEX':
                 continue
             filename = f'{TABLES[table]}-{EXCHANGES[exchange]}-{end_date}.csv'
-            sql = f"select * from {table} where exchange='{exchange}' and time > '{start_time}' and time < '{end_time}'"
-            cmd = f'influx -database trader -execute "{sql}" -format csv > {filename}'
+            sql = f"select * from {table} where exchange={exchange} and time>'{start_time}' and time<'{end_time}'"
+            cmd = f'{docker_cmd} "{sql}" -format csv > /var/lib/influxdb/{filename}'
             cmds.append(cmd)
     return cmds
 
