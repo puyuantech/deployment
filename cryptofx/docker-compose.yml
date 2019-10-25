@@ -16,6 +16,7 @@ services:
   dtl-grafana:
     image: grafana/grafana:latest
     container_name: dtl-grafana
+    user: "0"
     ports:
       - 3000:3000
     links:
@@ -32,5 +33,15 @@ services:
       - 9000-9007:9000-9007
     links:
       - dtl-influxdb
+    command: >
+        bash -c "sleep 3 &&
+                gun start master &&
+                gun start mr -f market1 &&
+                gun start mg -g binance -p cryptofx
+                gun start mg -g bitmex -p cryptofx
+                gun start mg -g huobi -p cryptofx
+                gun start mg -g okex -p cryptofx
+                gun start rr --rt influxdb --host dtl-influxdb --port 8086
+                gun join master"
     volumes:
       - ./data/main:/shared
