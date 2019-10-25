@@ -59,7 +59,7 @@ docker run -d -it \
 
 init trader database
 ```
-docker exec dtl-influxdb sh "/var/lib/influxdb/init-influxdb.sh"
+sh ./data/influxdb/scripts/init-influxdb.sh
 ```
 
 ## dtl-main setting
@@ -139,7 +139,7 @@ docker run -d -it \
 
 init trader database
 ```
-docker exec dtl-influxdb sh "/var/lib/influxdb/init-influxdb.sh"
+sh ./data/influxdb/scripts/init-influxdb.sh
 ```
 
 ## dtl-main setting
