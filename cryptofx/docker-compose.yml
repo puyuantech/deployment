@@ -28,7 +28,7 @@ services:
   dtl-grafana:
     image: grafana/grafana:latest
     container_name: dtl-grafana
-    user: "0"
+    user: root
     ports:
       - 3000:3000
     links:
