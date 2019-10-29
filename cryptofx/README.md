@@ -3,8 +3,9 @@
 ## 组件
 
     1.influxdb
-    2.grafana
-    3.cryptofx(包含recoder)
+    2.mysql
+    3.grafana
+    4.cryptofx(包含recoder)
 
 ## docker setting
 
@@ -26,6 +27,22 @@ docker run -d \
     --name dtl-influxdb \
     influxdb:1.7.8 \
     -config /etc/influxdb/influxdb.conf
+```
+
+## run mysql
+
+we chose `mysql:latest`
+
+```
+docker run -d -it \
+    -p 3306:3306 \
+    --net=traderslink \
+    -v $PWD/data/mysql/logs:/logs \
+    -v $PWD/data/mysql/conf:/etc/mysql/conf.d \
+    -v $PWD/data/mysql/data:/var/lib \
+    -e MYSQL_ROOT_PASSWORD=puyuantech \
+    --name dtl-mysql \
+    mysql:latest
 ```
 
 ## run grafana
@@ -65,6 +82,9 @@ sh ./data/influxdb/scripts/init-influxdb.sh
 ## dtl-main setting
 
 ```
+# init mysql
+gun db create && gun db init
+# run cryptofx
 gun start master
 gun start mr -f market1
 gun start mg -g binance -p cryptofx
@@ -80,9 +100,10 @@ python3 /shared/scripts/md_test.py
 ## 组件
 
     1.influxdb
-    2.grafana
-    3.cryptofx(不包含recoder)
-    4.recoder
+    2.mysql
+    3.grafana
+    4.cryptofx(不包含recoder)
+    5.recoder
 
 ## run influxdb
 
@@ -97,6 +118,21 @@ docker run -d \
     --name dtl-influxdb \
     influxdb:1.7.8 \
     -config /etc/influxdb/influxdb.conf
+```
+
+## run mysql
+
+we chose `mysql:latest`
+
+```
+docker run -d -it \
+    -p 3306:3306 \
+    -v $PWD/data/mysql/logs:/logs \
+    -v $PWD/data/mysql/conf:/etc/mysql/conf.d \
+    -v $PWD/data/mysql/data:/var/lib \
+    -e MYSQL_ROOT_PASSWORD=puyuantech \
+    --name dtl-mysql \
+    mysql:latest
 ```
 
 ## run grafana
@@ -145,6 +181,15 @@ sh ./data/influxdb/scripts/init-influxdb.sh
 ## dtl-main setting
 
 ```
+# update config.json
+database -> development -> host
+should update to {dtl-mysql-host}
+```
+
+```
+# init mysql
+gun db create && gun db init
+# run cryptofx
 gun start master
 gun start mr -f market1
 gun start mg -g binance -p cryptofx
@@ -157,5 +202,5 @@ python3 /shared/scripts/md_test.py
 ## dtl-recoder setting
 
 ```
-gun start rr --rt influxdb --host dtl-influxdb --port 8086
+gun start rr --rt influxdb --host {dtl-influxdb-host} --port 8086
 ```

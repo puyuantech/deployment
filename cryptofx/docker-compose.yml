@@ -13,6 +13,18 @@ services:
       - ./data/influxdb:/var/lib/influxdb
       - ./etc/influxdb.conf:/etc/influxdb/influxdb.conf:ro
 
+  dtl-mysql:
+    image: mysql:latest
+    container_name: dtl-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=puyuantech
+    ports:
+      - 3306:3306
+    volumes:
+      - ./data/mysql/logs:/logs
+      - ./data/mysql/conf:/etc/mysql/conf.d
+      - ./data/mysql/data:/var/lib
+
   dtl-grafana:
     image: grafana/grafana:latest
     container_name: dtl-grafana

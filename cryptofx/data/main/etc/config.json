@@ -113,7 +113,7 @@
             "username": "root",
             "xport": 3306,
             "db": "db_core",
-            "host": "172.17.0.3",
+            "host": "dtl-mysql",
             "password": "puyuantech",
             "port": 3306
         },
