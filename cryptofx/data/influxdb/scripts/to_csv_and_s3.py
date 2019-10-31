@@ -2,6 +2,8 @@ import boto3
 import datetime
 import os
 import pytz
+import zipfile
+import zlib
 
 
 TABLES = {
@@ -71,15 +73,22 @@ class Csv_And_S3:
                 filename = self.filename_cmd.format(TABLES[table], EXCHANGES[exchange], start_hour)
                 file_path = base_dir + '/' + filename
                 to_csv_cmd = self.to_csv_cmd.format(self.docker_cmd, sql, file_path)
-
                 print('start save to csv. (cmd){}'.format(to_csv_cmd))
                 os.system(to_csv_cmd)
 
-                file_key = self._make_key(self.source, EXCHANGES[exchange], TABLES[table], date, filename)
+                zip_filename = filename.replace('csv', 'zip')
+                zip_file_path = base_dir + '/' + zip_filename
+                print('start compress csv to zip. (name){}'.format(zip_filename))
+                with zipfile.ZipFile(zip_file_path, 'w') as zf:
+                    zf.write(file_path, filename, compress_type=zipfile.ZIP_DEFLATED)
 
+                file_key = self._make_key(self.source, EXCHANGES[exchange], TABLES[table], date, zip_filename)
                 print('start upload to s3. (key){}'.format(file_key))
-                self.upload_file(file_path, file_key)
+                self.upload_file(zip_file_path, file_key)
 
+        print('start delete csv file. (dir){}'.format(base_dir))
+        del_csv_cmd = 'rm -f {}/*.csv'.format(base_dir)
+        os.system(del_csv_cmd)
         print('end.')
 
 
