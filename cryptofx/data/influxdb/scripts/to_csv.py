@@ -47,7 +47,7 @@ def get_cmds(start_date, end_date, use_precision=False):
                 continue
             filename = f'{TABLES[table]}-{EXCHANGES[exchange]}-{start_date}.csv'
             sql = f"select * from {table} where exchange='{exchange}' and time>={start_time} and time<{end_time}"
-            cmd = f'{docker_cmd} "{sql}" -format csv > ../backups/{start_date}/{filename}'
+            cmd = f'{docker_cmd} "{sql}" -format csv > {directory}/{filename}'
             cmds.append(cmd)
     return cmds
 
