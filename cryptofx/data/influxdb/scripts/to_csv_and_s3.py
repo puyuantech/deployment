@@ -42,7 +42,8 @@ class Csv_And_S3:
     def _get_date_and_hour(self):
         end_datetime = datetime.datetime.now(pytz.timezone('Asia/Shanghai'))
         start_datetime = end_datetime - datetime.timedelta(hours=1)
-        return start_datetime.strftime("%Y-%m-%d"), start_datetime.strftime("%Y-%m-%d_%H"), end_datetime.strftime("%Y-%m-%d_%H")
+        old_datetime = start_datetime - datetime.timedelta(days=3)
+        return old_datetime.strftime("%Y-%m-%d_%H"), start_datetime.strftime("%Y-%m-%d"), start_datetime.strftime("%Y-%m-%d_%H"), end_datetime.strftime("%Y-%m-%d_%H")
 
     def _get_timestamp(self, date):
         return int((datetime.datetime.strptime(date, '%Y-%m-%d_%H') - datetime.timedelta(hours=8)).timestamp() * 1e9)
@@ -55,12 +56,22 @@ class Csv_And_S3:
         obj_acl = self.s3.ObjectAcl(self.bucket_name, file_key)
         obj_acl.put(ACL = 'public-read')
 
+    def clear(self, base_dir, old_dir):
+        print('start delete csv file. (dir){}'.format(base_dir))
+        del_csv_cmd = 'rm -f {}/*.csv'.format(base_dir)
+        os.system(del_csv_cmd)
+
+        print('start delete old zip file. (dir){}'.format(old_dir))
+        del_zip_cmd = 'rm -rf {}'.format(old_dir)
+        os.system(del_zip_cmd)
+
     def save(self):
-        date, start_hour, end_hour = self._get_date_and_hour()
+        old_hour, date, start_hour, end_hour = self._get_date_and_hour()
         start_time = self._get_timestamp(start_hour)
         end_time = self._get_timestamp(end_hour)
 
         base_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__))) + f'/backups/{start_hour}'
+        old_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__))) + f'/backups/{old_hour}'
         if not os.path.exists(base_dir):
             os.makedirs(base_dir)
 
@@ -86,9 +97,7 @@ class Csv_And_S3:
                 print('start upload to s3. (key){}'.format(file_key))
                 self.upload_file(zip_file_path, file_key)
 
-        print('start delete csv file. (dir){}'.format(base_dir))
-        del_csv_cmd = 'rm -f {}/*.csv'.format(base_dir)
-        os.system(del_csv_cmd)
+        self.clear(base_dir, old_dir)
         print('end.')
 
 
