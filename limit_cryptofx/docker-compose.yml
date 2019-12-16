@@ -11,7 +11,7 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 4G
+          memory: 2 G
     command: >
         bash -c "gun run master"
     volumes:
@@ -28,14 +28,15 @@ services:
         condition: any
       resources:
         limits:
-          cpus: '1'
-          memory: 4G
+          cpus: '2'
+          memory: 4 G
     command: >
         bash -c "sleep 1 &&
                  gun run mr -f market1"
     depends_on:
       - dtl-main
     volumes:
+      - ./etc/config.json:/shared/etc/config.json
       - ./log:/shared/log
 
   dtl-trade:
@@ -47,34 +48,36 @@ services:
         condition: any
       resources:
         limits:
-          cpus: '1'
-          memory: 4G
+          cpus: '2'
+          memory: 4 G
     command: >
         bash -c "sleep 1 &&
                  gun run tr -f trade1"
     depends_on:
       - dtl-main
     volumes:
+      - ./etc/config.json:/shared/etc/config.json
       - ./log:/shared/log
 
-  # dtl-oms:
-  #   image: puyuantech/cryptofx:latest
-  #   container_name: dtl-oms
-  #   network_mode: "host"
-  #   deploy:
-  #     restart_policy:
-  #       condition: any
-  #     resources:
-  #       limits:
-  #         cpus: '1'
-  #         memory: 4G
-  #   command: >
-  #       bash -c "sleep 1 &&
-  #                gun run oms -f oms1 -r trade1"
-  #   depends_on:
-  #     - dtl-trade
-  #   volumes:
-  #     - ./log:/shared/log
+  dtl-oms:
+    image: puyuantech/cryptofx:latest
+    container_name: dtl-oms
+    network_mode: "host"
+    deploy:
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2 G
+    command: >
+        bash -c "sleep 1 &&
+                 gun run oms -f oms1 -r trade1"
+    depends_on:
+      - dtl-trade
+    volumes:
+      - ./etc/config.json:/shared/etc/config.json
+      - ./log:/shared/log
 
   dtl-mg_binance:
     image: puyuantech/cryptofx:latest
@@ -86,13 +89,14 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 4G
+          memory: 1 G
     command: >
         bash -c "sleep 2 &&
                  gun run mg -g binance -p cryptofx"
     depends_on:
       - dtl-market
     volumes:
+      - ./etc/config.json:/shared/etc/config.json
       - ./log:/shared/log
 
   dtl-mg_bitmex:
@@ -105,13 +109,14 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 4G
+          memory: 1 G
     command: >
         bash -c "sleep 2 &&
                  gun run mg -g bitmex -p cryptofx"
     depends_on:
       - dtl-market
     volumes:
+      - ./etc/config.json:/shared/etc/config.json
       - ./log:/shared/log
 
   dtl-mg_bitstamp:
@@ -123,14 +128,15 @@ services:
         condition: any
       resources:
         limits:
-          cpus: '1'
-          memory: 4G
+          cpus: '0.5'
+          memory: 200 M
     command: >
         bash -c "sleep 2 &&
                  gun run mg -g bitstamp -p cryptofx"
     depends_on:
       - dtl-market
     volumes:
+      - ./etc/config.json:/shared/etc/config.json
       - ./log:/shared/log
 
   dtl-mg_coinbase:
@@ -142,14 +148,15 @@ services:
         condition: any
       resources:
         limits:
-          cpus: '1'
-          memory: 4G
+          cpus: '0.5'
+          memory: 200 M
     command: >
         bash -c "sleep 2 &&
                  gun run mg -g coinbase -p cryptofx"
     depends_on:
       - dtl-market
     volumes:
+      - ./etc/config.json:/shared/etc/config.json
       - ./log:/shared/log
 
   dtl-mg_huobi:
@@ -161,14 +168,15 @@ services:
         condition: any
       resources:
         limits:
-          cpus: '1'
-          memory: 4G
+          cpus: '1.2'
+          memory: 1500 M
     command: >
         bash -c "sleep 2 &&
                  gun run mg -g huobi -p cryptofx"
     depends_on:
       - dtl-market
     volumes:
+      - ./etc/config.json:/shared/etc/config.json
       - ./log:/shared/log
 
   dtl-mg_kraken:
@@ -180,14 +188,15 @@ services:
         condition: any
       resources:
         limits:
-          cpus: '1'
-          memory: 4G
+          cpus: '0.5'
+          memory: 200 M
     command: >
         bash -c "sleep 2 &&
                  gun run mg -g kraken -p cryptofx"
     depends_on:
       - dtl-market
     volumes:
+      - ./etc/config.json:/shared/etc/config.json
       - ./log:/shared/log
 
   dtl-mg_okex:
@@ -199,14 +208,15 @@ services:
         condition: any
       resources:
         limits:
-          cpus: '1'
-          memory: 4G
+          cpus: '1.2'
+          memory: 1500 M
     command: >
         bash -c "sleep 2 &&
                  gun run mg -g okex -p cryptofx"
     depends_on:
       - dtl-market
     volumes:
+      - ./etc/config.json:/shared/etc/config.json
       - ./log:/shared/log
 
   # dtl-tgs:
@@ -219,8 +229,8 @@ services:
   #       max_attempts: 3
   #     resources:
   #       limits:
-  #         cpus: '1'
-  #         memory: 4G
+  #         cpus: '2'
+  #         memory: 4 G
   #   command: >
   #       bash -c "sleep 3 &&
   #                gun start tg -g binance -a tg1 -p cryptofx &&
@@ -229,4 +239,5 @@ services:
   #   depends_on:
   #     - dtl-trade
   #   volumes:
+  #     - ./etc/config.json:/shared/etc/config.json
   #     - ./log:/shared/log
