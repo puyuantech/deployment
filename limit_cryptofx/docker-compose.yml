@@ -5,15 +5,18 @@ services:
     image: puyuantech/cryptofx:latest
     container_name: dtl-main
     network_mode: "host"
+    tty: true
+    stdin_open: true
     deploy:
       restart_policy:
         condition: any
       resources:
         limits:
-          cpus: '1'
-          memory: 2 G
+          cpus: '0.5'
+          memory: 1 G
     command: >
-        bash -c "gun run master"
+        bash -c "gun start master &&
+                 /bin/bash"
     volumes:
       - ./etc/config.json:/shared/etc/config.json
       - ./log:/shared/log
@@ -23,16 +26,18 @@ services:
     image: puyuantech/cryptofx:latest
     container_name: dtl-market
     network_mode: "host"
+    tty: true
+    stdin_open: true
     deploy:
       restart_policy:
         condition: any
       resources:
         limits:
-          cpus: '2'
-          memory: 4 G
+          cpus: '1'
+          memory: 2 G
     command: >
-        bash -c "sleep 1 &&
-                 gun run mr -f market1"
+        bash -c "gun start mr -f market1 &&
+                 /bin/bash"
     depends_on:
       - dtl-main
     volumes:
@@ -43,16 +48,18 @@ services:
     image: puyuantech/cryptofx:latest
     container_name: dtl-trade
     network_mode: "host"
+    tty: true
+    stdin_open: true
     deploy:
       restart_policy:
         condition: any
       resources:
         limits:
-          cpus: '2'
-          memory: 4 G
+          cpus: '1.5'
+          memory: 3 G
     command: >
-        bash -c "sleep 1 &&
-                 gun run tr -f trade1"
+        bash -c "gun start tr -f trade1 &&
+                 /bin/bash"
     depends_on:
       - dtl-main
     volumes:
@@ -63,6 +70,8 @@ services:
     image: puyuantech/cryptofx:latest
     container_name: dtl-oms
     network_mode: "host"
+    tty: true
+    stdin_open: true
     deploy:
       restart_policy:
         condition: any
@@ -72,7 +81,8 @@ services:
           memory: 2 G
     command: >
         bash -c "sleep 1 &&
-                 gun run oms -f oms1 -r trade1"
+                 gun start oms -f oms1 -r trade1 -d &&
+                 /bin/bash"
     depends_on:
       - dtl-trade
     volumes:
@@ -83,16 +93,20 @@ services:
     image: puyuantech/cryptofx:latest
     container_name: dtl-mg_binance
     network_mode: "host"
+    tty: true
+    stdin_open: true
     deploy:
       restart_policy:
-        condition: any
+        condition: on-failure
+        max_attempts: 3
       resources:
         limits:
           cpus: '1'
-          memory: 1 G
+          memory: 200 M
     command: >
-        bash -c "sleep 2 &&
-                 gun run mg -g binance -p cryptofx"
+        bash -c "sleep 1 &&
+                 gun start mg -g binance -p cryptofx &&
+                 /bin/bash"
     depends_on:
       - dtl-market
     volumes:
@@ -103,56 +117,20 @@ services:
     image: puyuantech/cryptofx:latest
     container_name: dtl-mg_bitmex
     network_mode: "host"
+    tty: true
+    stdin_open: true
     deploy:
       restart_policy:
-        condition: any
-      resources:
-        limits:
-          cpus: '1'
-          memory: 1 G
-    command: >
-        bash -c "sleep 2 &&
-                 gun run mg -g bitmex -p cryptofx"
-    depends_on:
-      - dtl-market
-    volumes:
-      - ./etc/config.json:/shared/etc/config.json
-      - ./log:/shared/log
-
-  dtl-mg_bitstamp:
-    image: puyuantech/cryptofx:latest
-    container_name: dtl-mg_bitstamp
-    network_mode: "host"
-    deploy:
-      restart_policy:
-        condition: any
+        condition: on-failure
+        max_attempts: 3
       resources:
         limits:
           cpus: '0.5'
           memory: 200 M
     command: >
-        bash -c "sleep 2 &&
-                 gun run mg -g bitstamp -p cryptofx"
-    depends_on:
-      - dtl-market
-    volumes:
-      - ./etc/config.json:/shared/etc/config.json
-      - ./log:/shared/log
-
-  dtl-mg_coinbase:
-    image: puyuantech/cryptofx:latest
-    container_name: dtl-mg_coinbase
-    network_mode: "host"
-    deploy:
-      restart_policy:
-        condition: any
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 200 M
-    command: >
-        bash -c "sleep 2 &&
-                 gun run mg -g coinbase -p cryptofx"
+        bash -c "sleep 1 &&
+                 gun start mg -g bitmex -p cryptofx &&
+                 /bin/bash"
     depends_on:
       - dtl-market
     volumes:
@@ -163,36 +141,20 @@ services:
     image: puyuantech/cryptofx:latest
     container_name: dtl-mg_huobi
     network_mode: "host"
+    tty: true
+    stdin_open: true
     deploy:
       restart_policy:
-        condition: any
+        condition: on-failure
+        max_attempts: 3
       resources:
         limits:
-          cpus: '1.2'
-          memory: 1500 M
-    command: >
-        bash -c "sleep 2 &&
-                 gun run mg -g huobi -p cryptofx"
-    depends_on:
-      - dtl-market
-    volumes:
-      - ./etc/config.json:/shared/etc/config.json
-      - ./log:/shared/log
-
-  dtl-mg_kraken:
-    image: puyuantech/cryptofx:latest
-    container_name: dtl-mg_kraken
-    network_mode: "host"
-    deploy:
-      restart_policy:
-        condition: any
-      resources:
-        limits:
-          cpus: '0.5'
+          cpus: '1.5'
           memory: 200 M
     command: >
-        bash -c "sleep 2 &&
-                 gun run mg -g kraken -p cryptofx"
+        bash -c "sleep 1 &&
+                 gun start mg -g huobi -p cryptofx &&
+                 /bin/bash"
     depends_on:
       - dtl-market
     volumes:
@@ -203,16 +165,46 @@ services:
     image: puyuantech/cryptofx:latest
     container_name: dtl-mg_okex
     network_mode: "host"
+    tty: true
+    stdin_open: true
     deploy:
       restart_policy:
-        condition: any
+        condition: on-failure
+        max_attempts: 3
       resources:
         limits:
-          cpus: '1.2'
-          memory: 1500 M
+          cpus: '1.5'
+          memory: 200 M
     command: >
-        bash -c "sleep 2 &&
-                 gun run mg -g okex -p cryptofx"
+        bash -c "sleep 1 &&
+                 gun start mg -g okex -p cryptofx &&
+                 /bin/bash"
+    depends_on:
+      - dtl-market
+    volumes:
+      - ./etc/config.json:/shared/etc/config.json
+      - ./log:/shared/log
+
+  dtl-mgs:
+    image: puyuantech/cryptofx:latest
+    container_name: dtl-mgs
+    network_mode: "host"
+    tty: true
+    stdin_open: true
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: 600 M
+    command: >
+        bash -c "sleep 1 &&
+                 gun start mg -g bitstamp -p cryptofx &&
+                 gun start mg -g coinbase -p cryptofx &&
+                 gun start mg -g kraken -p cryptofx &&
+                 /bin/bash"
     depends_on:
       - dtl-market
     volumes:
@@ -221,8 +213,10 @@ services:
 
   # dtl-tgs:
   #   image: puyuantech/cryptofx:latest
-  #   container_name: dtl-mg1
+  #   container_name: dtl-tgs
   #   network_mode: "host"
+  #   tty: true
+  #   stdin_open: true
   #   deploy:
   #     restart_policy:
   #       condition: on-failure
@@ -232,10 +226,10 @@ services:
   #         cpus: '2'
   #         memory: 4 G
   #   command: >
-  #       bash -c "sleep 3 &&
+  #       bash -c "sleep 2 &&
   #                gun start tg -g binance -a tg1 -p cryptofx &&
   #                gun start tg -g bitmex -a tg2 -p cryptofx &&
-  #                gun join master"
+  #                /bin/bash"
   #   depends_on:
   #     - dtl-trade
   #   volumes:
