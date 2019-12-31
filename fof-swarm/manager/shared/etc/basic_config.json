@@ -10,5 +10,11 @@
       "port": 3306
     },
     "mode": "development"
+  },
+  "redis": {
+    "host": "redis",
+    "port": 6379,
+    "db": 0,
+    "password": ""
   }
 }
