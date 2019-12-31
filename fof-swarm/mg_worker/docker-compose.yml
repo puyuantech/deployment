@@ -1,0 +1,120 @@
+version: "3.7"
+
+services:
+
+  # mgs
+  mr:
+    container_name: mr
+    image: puyuantech/fof:latest
+    tty: true
+    stdin_open: true
+    network_mode: fof-swarm
+    depends_on:
+      - master
+    volumes:
+      - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
+      - /data/fof_current/log/:/shared/log
+    command: >
+      bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
+                gun env register --init --docker_container && gun env register --docker_container && 
+                gun run mr -f market1"
+
+  mg-huobi:
+    container_name: mg-huobi
+    image: puyuantech/fof:latest
+    tty: true
+    stdin_open: true
+    network_mode: fof-swarm
+    depends_on:
+      - mr
+    volumes:
+      - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
+      - /data/fof_current/log/:/shared/log
+    command: >
+      bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
+                gun env register --init --docker_container &&
+                gun run mg -p cryptofx -g huobi -r market1"
+  
+  mg-okex:
+    container_name: mg-okex
+    image: puyuantech/fof:latest
+    tty: true
+    stdin_open: true
+    network_mode: fof-swarm
+    depends_on:
+      - mr
+    volumes:
+      - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
+      - /data/fof_current/log/:/shared/log
+    command: >
+      bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
+                gun env register --init --docker_container &&
+                gun run mg -p cryptofx -g okex -r market1"
+
+  mg-bitmex:
+    container_name: mg-bitmex
+    image: puyuantech/fof:latest
+    tty: true
+    stdin_open: true
+    network_mode: fof-swarm
+    depends_on:
+      - mr
+    volumes:
+      - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
+      - /data/fof_current/log/:/shared/log
+    command: >
+      bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
+                gun env register --init --docker_container &&
+                gun run mg -p cryptofx -g bitmex -r market1"
+
+
+  mg-bitstamp:
+    container_name: mg-bitstamp
+    image: puyuantech/fof:latest
+    tty: true
+    stdin_open: true
+    network_mode: fof-swarm
+    depends_on:
+      - mr
+    volumes:
+      - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
+      - /data/fof_current/log/:/shared/log
+    command: >
+      bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
+                gun env register --init --docker_container &&
+                gun run mg -p cryptofx -g bitstamp -r market1"
+
+
+  mg-coinbase:
+    container_name: mg-coinbase
+    image: puyuantech/fof:latest
+    tty: true
+    stdin_open: true
+    network_mode: fof-swarm
+    depends_on:
+      - mr
+    volumes:
+      - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
+      - /data/fof_current/log/:/shared/log
+    command: >
+      bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
+                gun env register --init --docker_container &&
+                gun run mg -p cryptofx -g coinbase -r market1"
+
+
+  mg-kraken:
+    container_name: mg-kraken
+    image: puyuantech/fof:latest
+    tty: true
+    stdin_open: true
+    network_mode: fof-swarm
+    depends_on:
+      - mr
+    volumes:
+      - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
+      - /data/fof_current/log/:/shared/log
+    command: >
+      bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
+                gun env register --init --docker_container &&
+                gun run mg -p cryptofx -g kraken -r market1"
+

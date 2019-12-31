@@ -1,0 +1,56 @@
+{
+    "config_version": "0.3",
+    "master_rep": "tcp://0.0.0.0:9000",
+    "master_rep_port": 9000,
+    "env": "env1",
+    "modules": [
+        {
+            "fist_type": "MASTER",
+            "fist_name": "master",
+            "addrs": {
+                "Zmq_PUB": {
+                    "comm_method": "TCP",
+                    "port": 9001
+                },
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9000
+                }
+            },
+            "source_id": 0
+        }
+    ],
+    "env_infos": [
+        {
+            "public_ip": "127.0.0.1",
+            "env_name": "env1",
+            "private_ip": "127.0.0.1"
+        }
+    ],
+    "gateway_reconnection_policy": {
+        "max_retry_times": 20,
+        "retry_interval_in_seconds": 5
+    },
+    "notification_center": {
+        "slack": "",
+        "redis": {
+            "host": "",
+            "port": 6379,
+            "password": "",
+            "key": "notification"
+        }
+    },
+    "database": {
+        "development": {
+            "username": "",
+            "xport": 3306,
+            "db": "",
+            "host": "",
+            "password": "",
+            "port": 3306
+        },
+        "mode": "development"
+    },
+    "accounts": {
+    }
+}

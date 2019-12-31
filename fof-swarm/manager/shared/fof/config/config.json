@@ -1,0 +1,87 @@
+{
+    "database": {
+        "mode": "development",
+        "development": {
+            "host": "192.168.1.125",
+            "port": 3306,
+            "username": "root",
+            "password": "",
+            "db": "fof_info"
+        }
+    },
+    "oms": {
+        "mode": "development",
+        "development": {
+            "host": "192.168.1.125",
+            "port": 3306,
+            "username": "root",
+            "password": "",
+            "db": "db_core"
+        }
+    },
+    "redis": {
+        "host": "redis",
+        "port": 6379,
+        "db": 0,
+        "password":""
+    },
+    "hosting": {
+        "host": "0.0.0.0",
+        "port": 12013,
+        "ws_port": 12014
+    },
+    "sys": {
+        "log_dir": "/shared/fof/log/"
+    },
+    "fof_client": {
+        "name": "tlic",
+        "ser_name": "s_tlic",
+        "rep_addr": "tcp://127.0.0.1:12015",
+        "pub_addr": "tcp://127.0.0.1:12016",
+        "ser_pub_addr": "tcp://127.0.0.1:12017",
+        "cli_pub_addr": "tcp://127.0.0.1:12018",
+        "master_rep_addr": "tcp://master:9000",
+        "tr_name": "trade1",
+        "mr_name": "market1",
+        "oms_name": "oms1"
+    },
+    "notification_center": {
+        "email": {
+            "sender": "huangli_pu@163.com",
+            "subject": "FOF Notification",
+            "smtpserver": "smtp.163.com",
+            "username": "huangli_pu@163.com",
+            "password": "huangli01"
+        },
+        "dingding": {
+            "webhook": "https://oapi.dingtalk.com/robot/send?access_token=c7dfabbcd9555d1f9a8811d6a4a3548917c6d7b0a0e829e8ee7490c65d64aa5a"
+        },
+        "slack": {
+            "webhook": "https://hooks.slack.com/services/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"
+        },
+        "sms": {
+            "accountSid": "8aaf070864b08c210164cbbe1f360f9d",
+            "appToken": "965dfbf07004498b88bc67da48abb6e7",
+            "appId": "8aaf070864b08c210164cbbe1f880fa3",
+            "templateId": "480499"
+        }
+    },
+    "dashboard_info": {
+        "GET_DASHBOARDS_URLS": "http://47.74.2.57:3000/api/dashboards/uid/{}",
+        "POST_DASHBOARDS_URLS": "http://47.74.2.57:3000/api/dashboards/db",
+        "GET_ALL_FOLDERS_URLS": "http://47.74.2.57:3000/api/folders",
+        "FOLDER_DASHBOARD_URLS": "http://47.74.2.57:3000/api/search",
+        "FOF_NAME": "FOF",
+        "OVERVIEW_NAME": "测试overview",
+        "FOF_UIDS": "Nov199hZk",
+        "TEAM_MONITOR_UIDS": "gGib69AZz",
+        "OVERVIEW_UIDS": "muBanZongLan",
+        "APIKEY": "Bearer eyJrIjoiNEdvVlRLdjJJMkVNRWM1ZHR2cTROQTdkc0oxcUxQUmoiLCJuIjoiZm9mIiwiaWQiOjF9",
+        "APIKEY_54": "Bearer eyJrIjoicDBYTUl6eXpGVEttZm1mUXRuZzU3bnQzdzJyNjVEY1YiLCJuIjoiVGVzdCIsImlkIjoxfQ=="
+    },
+    "bx_transfer_info": {
+        "host_url": "https://testapi.bixin.fund/api/v1",
+        "api_key": "e6831e9e-3971-49df-b8e2-1ba7cdd86153",
+        "api_secret": "2c87ee1d-1e49-4630-9f92-3942b3de46d5"
+    }
+}

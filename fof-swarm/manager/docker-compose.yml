@@ -1,0 +1,99 @@
+version: "3.7"
+
+services:
+
+  master:
+    container_name: master
+    image: puyuantech/fof:latest
+    tty: true
+    stdin_open: true
+    network_mode: fof-swarm
+    volumes:
+      - ./shared/etc/master_config.json:/shared/etc/config.json
+      - /data/fof_current/log/:/shared/log
+      - /data/fof_current/temp/:/shared/temp
+    command: >
+      bash -c "gun run master"
+
+  notification:
+    container_name: notification
+    image: puyuantech/fof:latest
+    tty: true
+    stdin_open: true
+    network_mode: fof-swarm
+    environment:
+      - WXWORK_URL=https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=c1eefb72-d65c-4f7f-b30d-a2e8eb2e536e
+    depends_on:
+      - master
+    volumes:
+      - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
+      - /data/fof_current/log/:/shared/log
+    command: >
+      bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
+                gun env register --init --docker_container &&
+                gun start nn --nt wxwork && /bin/bash"
+
+  oms:
+    container_name: oms
+    image: puyuantech/fof:latest
+    tty: true
+    stdin_open: true
+    network_mode: fof-swarm
+    depends_on:
+      - master
+    volumes:
+      - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
+      - /data/fof_current/log/:/shared/log
+    command: >
+      bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
+                gun env register --init --docker_container &&
+                gun run oms"
+
+  # tgs
+  tgs:
+    container_name: tgs
+    image: puyuantech/fof:latest
+    tty: true
+    stdin_open: true
+    network_mode: fof-swarm
+    depends_on:
+      - master
+    volumes:
+      - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
+      - /data/fof_current/log/:/shared/log
+    command: >
+      bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
+                gun env register --init --docker_container &&
+                gun run tr -f trade1"
+
+  # run fof related services
+  fof:
+    container_name: fof
+    image: puyuantech/fof:latest
+    tty: true
+    stdin_open: true
+    network_mode: fof-swarm
+    depends_on:
+      - master
+      - tgs
+    volumes:
+        - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
+        - ./shared/fof/config/config.json:/shared/fof/config/config.json
+        - /data/fof_current/fof_config/sub_account.json:/shared/fof/config/sub_account.json
+        - /data/fof_current/fof_config/account_relation.json:/shared/fof/config/account_relation.json
+        - /data/fof_current/log/:/shared/log
+        - /data/fof_current/fof_log/:/shared/fof/log
+        - /data/fof_current/key/:/shared/key
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: host
+      - target: 443
+        published: 443
+        protocol: tcp
+        mode: host
+    command: >
+      bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
+                gun env register --init --docker_container &&
+                fofd && /bin/bash"

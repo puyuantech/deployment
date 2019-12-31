@@ -1,0 +1,1 @@
+docker run -d -it -v /shared/code:/shared/code -p 1187:22 --privileged --name build puyuantech/cryptofx /usr/sbin/init

@@ -1,0 +1,142 @@
+{
+    "config_version": "0.3",
+    "master_rep": "tcp://0.0.0.0:9000",
+    "master_rep_port": 9000,
+    "env": "master",
+    "modules": [
+        {
+            "fist_type": "MASTER",
+            "fist_name": "master",
+            "addrs": {
+                "Zmq_PUB": {
+                    "comm_method": "TCP",
+                    "port": 9001
+                },
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9000
+                }
+            },
+            "source_id": 0
+        },
+        {
+            "fist_type": "TRADE_ROUTER",
+            "fist_name": "trade1",
+            "addrs": {
+                "Zmq_PUB": {
+                    "comm_method": "TCP",
+                    "port": 9003
+                },
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9004
+                },
+                "Zmq_PULL": {
+                    "comm_method": "TCP",
+                    "port": 9005
+                }
+            },
+            "source_id": 1
+        },
+        {
+            "fist_type": "TRADE_ROUTER",
+            "fist_name": "trade2",
+            "addrs": {
+                "Zmq_PUB": {
+                    "comm_method": "TCP",
+                    "port": 9003
+                },
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9004
+                },
+                "Zmq_PULL": {
+                    "comm_method": "TCP",
+                    "port": 9005
+                }
+            },
+            "source_id": 2
+        },
+        {
+            "fist_type": "TRADE_ROUTER",
+            "fist_name": "trade3",
+            "addrs": {
+                "Zmq_PUB": {
+                    "comm_method": "TCP",
+                    "port": 9003
+                },
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9004
+                },
+                "Zmq_PULL": {
+                    "comm_method": "TCP",
+                    "port": 9005
+                }
+            },
+            "source_id": 3
+        },
+        {
+            "fist_type": "MARKET_ROUTER",
+            "fist_name": "market1",
+            "addrs": {
+                "Zmq_PUB": {
+                    "comm_method": "TCP",
+                    "port": 9003
+                },
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9004
+                },
+                "Zmq_PULL": {
+                    "comm_method": "TCP",
+                    "port": 9005
+                }
+            },
+            "source_id": 4
+        },
+        {
+            "fist_type": "ORDER_MANAGER",
+            "fist_name": "oms1",
+            "addrs": {
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9003
+                }
+            },
+            "source_id": 5
+        }
+    ],
+    "env_infos": [
+        {
+            "env_name": "master",
+            "public_ip": "master",
+            "private_ip": "master"
+        }
+    ],
+    "gateway_reconnection_policy": {
+        "max_retry_times": 20,
+        "retry_interval_in_seconds": 5
+    },
+    "notification_center": {
+        "slack": "",
+        "redis": {
+            "host": "",
+            "port": 6379,
+            "password": "",
+            "key": "notification"
+        }
+    },
+    "database": {
+        "development": {
+            "username": "root",
+            "xport": 3306,
+            "db": "db_core",
+            "host": "192.168.1.125",
+            "password": "",
+            "port": 3306
+        },
+        "mode": "development"
+    },
+    "accounts": {}
+}
