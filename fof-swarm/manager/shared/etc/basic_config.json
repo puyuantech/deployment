@@ -11,10 +11,13 @@
     },
     "mode": "development"
   },
-  "redis": {
-    "host": "redis",
-    "port": 6379,
-    "db": 0,
-    "password": ""
+  "notification_center": {
+    "slack": "",
+    "redis": {
+      "host": "redis",
+      "port": 6379,
+      "password": "",
+      "key": "notification"
+    }
   }
 }
