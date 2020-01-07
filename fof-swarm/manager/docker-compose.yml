@@ -49,23 +49,6 @@ services:
                 gun env register --init --docker_container &&
                 gun run oms"
 
-  # tgs
-  tgs:
-    container_name: tgs
-    image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
-    network_mode: fof-swarm
-    depends_on:
-      - master
-    volumes:
-      - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
-      - /data/fof_current/log/:/shared/log
-    command: >
-      bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
-                gun env register --init --docker_container &&
-                gun run tr -f trade1"
-
   # run fof related services
   fof:
     container_name: fof
