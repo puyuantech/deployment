@@ -1,7 +1,6 @@
 version: "3.7"
 
 services:
-
   master:
     container_name: master
     image: puyuantech/fof:latest
@@ -31,7 +30,7 @@ services:
     command: >
       bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
                 gun env register --init --docker_container &&
-                gun start nn --nt wxwork && /bin/bash"
+                gun run nn --nt wxwork"
 
   oms:
     container_name: oms
@@ -60,15 +59,15 @@ services:
       - master
       - tgs
     volumes:
-        - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
-        - ./shared/fof/config/config.json:/shared/fof/config/config.json
-        - /data/fof_current/fof_config/sub_account.json:/shared/fof/config/sub_account.json
-        - /data/fof_current/fof_config/account_relation.json:/shared/fof/config/account_relation.json
-        - /data/fof_current/log/:/shared/log
-        - /data/fof_current/fof_log/:/shared/fof/log
-        - /data/fof_current/fof_log/supervisord:/shared/fof/log/supervisord
-        - /data/fof_current/fof_log/nginx:/shared/fof/log/nginx
-        - /data/fof_current/key/:/shared/key
+      - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
+      - ./shared/fof/config/config.json:/shared/fof/config/config.json
+      - /data/fof_current/fof_config/sub_account.json:/shared/fof/config/sub_account.json
+      - /data/fof_current/fof_config/account_relation.json:/shared/fof/config/account_relation.json
+      - /data/fof_current/log/:/shared/log
+      - /data/fof_current/fof_log/:/shared/fof/log
+      - /data/fof_current/fof_log/supervisord:/shared/fof/log/supervisord
+      - /data/fof_current/fof_log/nginx:/shared/fof/log/nginx
+      - /data/fof_current/key/:/shared/key
     ports:
       - target: 80
         published: 80
