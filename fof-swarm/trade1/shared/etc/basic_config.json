@@ -1,3 +1,14 @@
 {
-  "master_rep": "tcp://master:9000"
+  "master_rep": "tcp://master:9000",
+  "database": {
+    "development": {
+      "username": "root",
+      "xport": 3306,
+      "db": "db_core",
+      "host": "mysql",
+      "password": "",
+      "port": 3306
+    },
+    "mode": "development"
+  }
 }
