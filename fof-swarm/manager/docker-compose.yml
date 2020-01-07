@@ -57,7 +57,6 @@ services:
     network_mode: fof-swarm
     depends_on:
       - master
-      - tgs
     volumes:
       - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
       - ./shared/fof/config/config.json:/shared/fof/config/config.json
