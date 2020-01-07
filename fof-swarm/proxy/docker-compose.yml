@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
 
-  fof-proxy:
+  proxy:
     build: .
-    container_name: fof-proxy
+    container_name: proxy
     network_mode: fof-swarm

@@ -4,10 +4,10 @@ LABEL maintainer="puyuan<github@puyuan.tech>"
 
 EXPOSE 1187
 
-COPY ./resource/* /root/
+COPY ./resource/privoxy.config /root/privoxy.config
 
 RUN yum install epel-release -y && \
     yum install privoxy -y && \
-    yum -y clean all && rm -rf /tmp/resource
+    yum -y clean all
 
 CMD /bin/bash -c "privoxy --no-daemon /root/privoxy.config"
