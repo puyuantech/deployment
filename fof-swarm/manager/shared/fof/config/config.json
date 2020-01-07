@@ -2,7 +2,7 @@
     "database": {
         "mode": "development",
         "development": {
-            "host": "192.168.1.125",
+            "host": "mysql",
             "port": 3306,
             "username": "root",
             "password": "",
@@ -12,7 +12,7 @@
     "oms": {
         "mode": "development",
         "development": {
-            "host": "192.168.1.125",
+            "host": "mysql",
             "port": 3306,
             "username": "root",
             "password": "",

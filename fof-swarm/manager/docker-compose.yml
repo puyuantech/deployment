@@ -66,6 +66,8 @@ services:
         - /data/fof_current/fof_config/account_relation.json:/shared/fof/config/account_relation.json
         - /data/fof_current/log/:/shared/log
         - /data/fof_current/fof_log/:/shared/fof/log
+        - /data/fof_current/fof_log/supervisord:/shared/fof/log/supervisord
+        - /data/fof_current/fof_log/nginx:/shared/fof/log/nginx
         - /data/fof_current/key/:/shared/key
     ports:
       - target: 80
