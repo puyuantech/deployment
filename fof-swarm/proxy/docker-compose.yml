@@ -1,8 +1,12 @@
 version: "3.7"
 
 services:
-
   proxy:
     build: .
     container_name: proxy
     network_mode: fof-swarm
+    command: >
+      bash -c " privoxy /root/privoxy1.config &&
+                privoxy /root/privoxy2.config &&
+                privoxy /root/privoxy3.config &&
+                /bin/bash"
