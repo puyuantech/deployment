@@ -8,5 +8,4 @@ services:
     command: >
       bash -c " privoxy /root/privoxy1.config &&
                 privoxy /root/privoxy2.config &&
-                privoxy /root/privoxy3.config &&
-                /bin/bash"
+                privoxy --no-daemon /root/privoxy3.config"
