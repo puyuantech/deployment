@@ -77,8 +77,8 @@
             "source_id": 3
         },
         {
-            "fist_type": "MARKET_ROUTER",
-            "fist_name": "market1",
+            "fist_type": "TRADE_ROUTER",
+            "fist_name": "trade4",
             "addrs": {
                 "Zmq_PUB": {
                     "comm_method": "TCP",
@@ -96,6 +96,120 @@
             "source_id": 4
         },
         {
+            "fist_type": "TRADE_ROUTER",
+            "fist_name": "trade5",
+            "addrs": {
+                "Zmq_PUB": {
+                    "comm_method": "TCP",
+                    "port": 9003
+                },
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9004
+                },
+                "Zmq_PULL": {
+                    "comm_method": "TCP",
+                    "port": 9005
+                }
+            },
+            "source_id": 5
+        },
+        {
+            "fist_type": "TRADE_ROUTER",
+            "fist_name": "trade6",
+            "addrs": {
+                "Zmq_PUB": {
+                    "comm_method": "TCP",
+                    "port": 9003
+                },
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9004
+                },
+                "Zmq_PULL": {
+                    "comm_method": "TCP",
+                    "port": 9005
+                }
+            },
+            "source_id": 6
+        },
+        {
+            "fist_type": "TRADE_ROUTER",
+            "fist_name": "trade7",
+            "addrs": {
+                "Zmq_PUB": {
+                    "comm_method": "TCP",
+                    "port": 9003
+                },
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9004
+                },
+                "Zmq_PULL": {
+                    "comm_method": "TCP",
+                    "port": 9005
+                }
+            },
+            "source_id": 7
+        },
+        {
+            "fist_type": "TRADE_ROUTER",
+            "fist_name": "trade8",
+            "addrs": {
+                "Zmq_PUB": {
+                    "comm_method": "TCP",
+                    "port": 9003
+                },
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9004
+                },
+                "Zmq_PULL": {
+                    "comm_method": "TCP",
+                    "port": 9005
+                }
+            },
+            "source_id": 8
+        },
+        {
+            "fist_type": "TRADE_ROUTER",
+            "fist_name": "trade9",
+            "addrs": {
+                "Zmq_PUB": {
+                    "comm_method": "TCP",
+                    "port": 9003
+                },
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9004
+                },
+                "Zmq_PULL": {
+                    "comm_method": "TCP",
+                    "port": 9005
+                }
+            },
+            "source_id": 9
+        },
+        {
+            "fist_type": "MARKET_ROUTER",
+            "fist_name": "market1",
+            "addrs": {
+                "Zmq_PUB": {
+                    "comm_method": "TCP",
+                    "port": 9003
+                },
+                "Zmq_REP": {
+                    "comm_method": "TCP",
+                    "port": 9004
+                },
+                "Zmq_PULL": {
+                    "comm_method": "TCP",
+                    "port": 9005
+                }
+            },
+            "source_id": 10
+        },
+        {
             "fist_type": "ORDER_MANAGER",
             "fist_name": "oms1",
             "addrs": {
@@ -104,7 +218,7 @@
                     "port": 9003
                 }
             },
-            "source_id": 5
+            "source_id": 11
         }
     ],
     "env_infos": [
