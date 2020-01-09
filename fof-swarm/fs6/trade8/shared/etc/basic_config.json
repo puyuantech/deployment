@@ -1,5 +1,6 @@
 {
   "master_rep": "tcp://master:9000",
+  "http_proxy": "http://proxy:11888",
   "database": {
     "development": {
       "username": "root",
@@ -10,14 +11,5 @@
       "port": 3306
     },
     "mode": "development"
-  },
-  "notification_center": {
-    "slack": "",
-    "redis": {
-      "host": "redis",
-      "port": 6379,
-      "password": "",
-      "key": "notification"
-    }
   }
 }

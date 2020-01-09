@@ -132,7 +132,7 @@
             "username": "root",
             "xport": 3306,
             "db": "db_core",
-            "host": "mysql",
+            "host": "47.74.36.27",
             "password": "",
             "port": 3306
         },

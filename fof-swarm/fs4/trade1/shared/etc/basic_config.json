@@ -1,12 +1,12 @@
 {
   "master_rep": "tcp://master:9000",
-  "http_proxy": "http://proxy:1187",
+  "http_proxy": "http://proxy:11881",
   "database": {
     "development": {
       "username": "root",
       "xport": 3306,
       "db": "db_core",
-      "host": "mysql",
+      "host": "47.74.36.27",
       "password": "",
       "port": 3306
     },
