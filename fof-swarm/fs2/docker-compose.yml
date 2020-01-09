@@ -12,8 +12,7 @@ services:
       - /data/fof_current/log/:/shared/log
       - /data/fof_current/key/:/shared/key
     command: >
-      bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
-                gun env register --init --docker_container &&
+      bash -c " gun env register --init --docker_container &&
                 gun run tr -f trade1"
 
   trade2:
@@ -27,8 +26,7 @@ services:
       - /data/fof_current/log/:/shared/log
       - /data/fof_current/key/:/shared/key
     command: >
-      bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
-                gun env register --init --docker_container &&
+      bash -c " gun env register --init --docker_container &&
                 gun run tr -f trade2"
   
   trade3:
@@ -42,6 +40,5 @@ services:
       - /data/fof_current/log/:/shared/log
       - /data/fof_current/key/:/shared/key
     command: >
-      bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
-                gun env register --init --docker_container &&
+      bash -c " gun env register --init --docker_container &&
                 gun run tr -f trade3"
