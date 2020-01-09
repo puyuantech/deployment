@@ -1,7 +1,7 @@
 docker pull puyuantech/fof:latest
-cd trade7
+cd trade1
 docker-compose --compatibility up -d
-cd ../trade8
+cd ../trade2
 docker-compose --compatibility up -d
-cd ../trade9
+cd ../trade3
 docker-compose --compatibility up -d

@@ -1,6 +1,6 @@
-cd trade1
+cd trade7
 docker-compose --compatibility down
-cd ../trade2
+cd ../trade8
 docker-compose --compatibility down
-cd ../trade3
+cd ../trade9
 docker-compose --compatibility down
