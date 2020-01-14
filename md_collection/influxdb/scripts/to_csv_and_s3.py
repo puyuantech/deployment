@@ -16,10 +16,11 @@ EXCHANGES = {
     'BITMEX': 'bitmex',
     'HUOBI': 'huobi',
     'OKEX': 'okex',
+    'BYBIT': 'bybit',
 }
 
 
-class Csv_And_S3:
+class SaveMDToS3:
 
     def __init__(self):
         self.docker_cmd = 'docker exec dtl-influxdb influx -database trader -execute'
@@ -102,4 +103,4 @@ class Csv_And_S3:
 
 
 if __name__ == "__main__":
-    Csv_And_S3().save()
+    SaveMDToS3().save()

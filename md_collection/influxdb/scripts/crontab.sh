@@ -14,5 +14,5 @@ MAILTO=root
 # *  *  *  *  * user-name  command to be executed
 
 # influxdb to csv to zip to s3
-# 30  *  *  *  * python3 /opt/deployment/cryptofx/data/influxdb/scripts/to_csv_and_s3.py
-30  *  *  *  * root python3 /opt/deployment/cryptofx/data/influxdb/scripts/to_csv_and_s3.py
+# 30  *  *  *  * python3 /opt/deployment/md_collection/influxdb/scripts/to_csv_and_s3.py
+30  *  *  *  * root python3 /opt/deployment/md_collection/influxdb/scripts/to_csv_and_s3.py
