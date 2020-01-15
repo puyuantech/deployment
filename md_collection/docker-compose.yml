@@ -1,0 +1,287 @@
+version: '3.7'
+services:
+
+  dtl-main:
+    image: puyuantech/cryptofx:latest
+    container_name: dtl-main
+    network_mode: "host"
+    deploy:
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2 G
+    command: >
+        bash -c "gun run master >> /shared/temp/log_master 2>&1"
+    volumes:
+      - ./etc/config.json:/shared/etc/config.json
+      - ./log:/shared/log
+      - ./temp:/shared/temp
+
+  dtl-notification:
+    image: puyuantech/cryptofx:latest
+    container_name: dtl-notification
+    network_mode: "host"
+    tty: true
+    stdin_open: true
+    deploy:
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2 G
+    command: >
+        bash -c "gun start nn --nt wxwork &&
+                 /bin/bash"
+    environment:
+      - WXWORK_URL={YOUR_WXWORK_URL}
+    depends_on:
+      - dtl-main
+    volumes:
+      - ./etc/config.json:/shared/etc/config.json
+      - ./log:/shared/log
+      - ./temp:/shared/temp
+
+  dtl-market:
+    image: puyuantech/cryptofx:latest
+    container_name: dtl-market
+    network_mode: "host"
+    deploy:
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          cpus: '3'
+          memory: 6 G
+    command: >
+        bash -c "gun run mr -f market1 >> /shared/temp/log_market1 2>&1"
+    depends_on:
+      - dtl-main
+    volumes:
+      - ./etc/config.json:/shared/etc/config.json
+      - ./log:/shared/log
+      - ./temp:/shared/temp
+
+  dtl-trade:
+    image: puyuantech/cryptofx:latest
+    container_name: dtl-trade
+    network_mode: "host"
+    deploy:
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: 3 G
+    command: >
+        bash -c "gun run tr -f trade1 >> /shared/temp/log_trade1 2>&1"
+    depends_on:
+      - dtl-main
+    volumes:
+      - ./etc/config.json:/shared/etc/config.json
+      - ./log:/shared/log
+      - ./temp:/shared/temp
+
+  dtl-recorder:
+    image: puyuantech/cryptofx:latest
+    container_name: dtl-recorder
+    network_mode: "host"
+    tty: true
+    stdin_open: true
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4 G
+    command: >
+        bash -c "sleep 1 &&
+                 gun start rr --rt influxdb --host localhost --port 8086 &&
+                 /bin/bash"
+    depends_on:
+      - dtl-market
+      - dtl-trade
+    volumes:
+      - ./etc/config.json:/shared/etc/config.json
+      - ./log:/shared/log
+      - ./temp:/shared/temp
+
+  dtl-mg_binance:
+    image: puyuantech/cryptofx:latest
+    container_name: dtl-mg_binance
+    network_mode: "host"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '1'
+          memory: 200 M
+    command: >
+        bash -c "sleep 1 &&
+                 gun run mg -g binance -p cryptofx --disable_console_logger --sub trade:'*' snap:'*' bar:'*' >> /shared/temp/log_mg_binance 2>&1"
+    depends_on:
+      - dtl-market
+    volumes:
+      - ./etc/config.json:/shared/etc/config.json
+      - ./log:/shared/log
+      - ./temp:/shared/temp
+
+  dtl-mg_bitmex:
+    image: puyuantech/cryptofx:latest
+    container_name: dtl-mg_bitmex
+    network_mode: "host"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 200 M
+    command: >
+        bash -c "sleep 1 &&
+                 gun run mg -g bitmex -p cryptofx --disable_console_logger --sub trade:'*' snap:'*' bar:'*' >> /shared/temp/log_mg_bitmex 2>&1"
+    depends_on:
+      - dtl-market
+    volumes:
+      - ./etc/config.json:/shared/etc/config.json
+      - ./log:/shared/log
+      - ./temp:/shared/temp
+
+  dtl-mg_huobi:
+    image: puyuantech/cryptofx:latest
+    container_name: dtl-mg_huobi
+    network_mode: "host"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: 200 M
+    command: >
+        bash -c "sleep 1 &&
+                 gun run mg -g huobi -p cryptofx --disable_console_logger --sub trade:'*' snap:'*' bar:'*' >> /shared/temp/log_mg_huobi 2>&1"
+    depends_on:
+      - dtl-market
+    volumes:
+      - ./etc/config.json:/shared/etc/config.json
+      - ./log:/shared/log
+      - ./temp:/shared/temp
+
+  dtl-mg_okex:
+    image: puyuantech/cryptofx:latest
+    container_name: dtl-mg_okex
+    network_mode: "host"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: 200 M
+    command: >
+        bash -c "sleep 1 &&
+                 gun run mg -g okex -p cryptofx --disable_console_logger --sub trade:'*' snap:'*' bar:'*' >> /shared/temp/log_mg_okex 2>&1"
+    depends_on:
+      - dtl-market
+    volumes:
+      - ./etc/config.json:/shared/etc/config.json
+      - ./log:/shared/log
+      - ./temp:/shared/temp
+
+  dtl-mg_bybit:
+    image: puyuantech/cryptofx:latest
+    container_name: dtl-mg_bybit
+    network_mode: "host"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 200 M
+    command: >
+        bash -c "sleep 1 &&
+                 gun run mg -g bybit -p cryptofx --disable_console_logger --sub trade:'*' snap:'*' bar:'*' >> /shared/temp/log_mg_bybit 2>&1"
+    depends_on:
+      - dtl-market
+    volumes:
+      - ./etc/config.json:/shared/etc/config.json
+      - ./log:/shared/log
+      - ./temp:/shared/temp
+
+  dtl-mg_bitstamp:
+    image: puyuantech/cryptofx:latest
+    container_name: dtl-mg_bitstamp
+    network_mode: "host"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '1'
+          memory: 200 M
+    command: >
+        bash -c "sleep 1 &&
+                 gun run mg -g bitstamp -p cryptofx --disable_console_logger --sub snap:btc/usd >> /shared/temp/log_mg_bitstamp 2>&1"
+    depends_on:
+      - dtl-market
+    volumes:
+      - ./etc/config.json:/shared/etc/config.json
+      - ./log:/shared/log
+      - ./temp:/shared/temp
+
+  dtl-mg_coinbase:
+    image: puyuantech/cryptofx:latest
+    container_name: dtl-mg_coinbase
+    network_mode: "host"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '1'
+          memory: 200 M
+    command: >
+        bash -c "sleep 1 &&
+                 gun run mg -g coinbase -p cryptofx --disable_console_logger --sub snap:btc/usd >> /shared/temp/log_mg_coinbase 2>&1"
+    depends_on:
+      - dtl-market
+    volumes:
+      - ./etc/config.json:/shared/etc/config.json
+      - ./log:/shared/log
+      - ./temp:/shared/temp
+
+  dtl-mg_kraken:
+    image: puyuantech/cryptofx:latest
+    container_name: dtl-mg_kraken
+    network_mode: "host"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '1'
+          memory: 200 M
+    command: >
+        bash -c "sleep 1 &&
+                 gun run mg -g kraken -p cryptofx --disable_console_logger --sub snap:xbt/usd >> /shared/temp/log_mg_kraken 2>&1"
+    depends_on:
+      - dtl-market
+    volumes:
+      - ./etc/config.json:/shared/etc/config.json
+      - ./log:/shared/log
+      - ./temp:/shared/temp

@@ -1,16 +1,8 @@
 {
-    "master_rep": "tcp://0.0.0.0:9000",
     "config_version": "0.3",
-    "gateway_reconnection_policy": {
-        "max_retry_times": 20,
-        "notification_methods": {
-            "email": "",
-            "slack": ""
-        },
-        "retry_interval_in_seconds": 5
-    },
-    "env": "env1",
+    "master_rep": "tcp://0.0.0.0:9000",
     "master_rep_port": 9000,
+    "env": "env1",
     "modules": [
         {
             "fist_type": "MASTER",
@@ -64,45 +56,23 @@
                 }
             },
             "source_id": 2
-        },
-        {
-            "fist_type": "BASKET_SERVER",
-            "fist_name": "basket",
-            "source_id": 3
-        },
-        {
-            "fist_type": "ALGO_SERVER",
-            "fist_name": "twap",
-            "source_id": 4
-        },
-        {
-            "fist_type": "RISK_MANAGER",
-            "fist_name": "rms1",
-            "source_id": 5
-        },
-        {
-            "fist_type": "ORDER_MANAGER",
-            "fist_name": "oms1",
-            "source_id": 6
         }
     ],
-    "accounts": {
-    },
     "env_infos": [
         {
             "public_ip": "127.0.0.1",
             "env_name": "env1",
-            "private_ip": "0.0.0.0"
-        },
-        {
-            "public_ip": "127.0.0.1",
-            "env_name": "env2",
-            "private_ip": "0.0.0.0"
+            "private_ip": "127.0.0.1"
         }
     ],
+    "gateway_reconnection_policy": {
+        "max_retry_times": 20,
+        "retry_interval_in_seconds": 5
+    },
     "notification_center": {
-        "redis_backup": {
-            "host": "127.0.0.1",
+        "slack": "",
+        "redis": {
+            "host": "localhost",
             "port": 6379,
             "password": "",
             "key": "notification"
@@ -113,10 +83,12 @@
             "username": "root",
             "xport": 3306,
             "db": "db_core",
-            "host": "dtl-mysql",
-            "password": "puyuantech",
+            "host": "localhost",
+            "password": "",
             "port": 3306
         },
         "mode": "development"
+    },
+    "accounts": {
     }
 }
