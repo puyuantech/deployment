@@ -4,9 +4,10 @@ services:
   trade4:
     container_name: trade4
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
     network_mode: fof-swarm
+    deploy:
+      restart_policy:
+        condition: any
     volumes:
       - ./shared/etc/trade4.json:/shared/etc/config.json
       - /data/fof_current/log/:/shared/log
@@ -18,9 +19,10 @@ services:
   trade5:
     container_name: trade5
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
     network_mode: fof-swarm
+    deploy:
+      restart_policy:
+        condition: any
     volumes:
       - ./shared/etc/trade5.json:/shared/etc/config.json
       - /data/fof_current/log/:/shared/log
@@ -32,9 +34,10 @@ services:
   trade6:
     container_name: trade6
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
     network_mode: fof-swarm
+    deploy:
+      restart_policy:
+        condition: any
     volumes:
       - ./shared/etc/trade6.json:/shared/etc/config.json
       - /data/fof_current/log/:/shared/log

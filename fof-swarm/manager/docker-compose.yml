@@ -4,9 +4,10 @@ services:
   master:
     container_name: master
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
     network_mode: fof-swarm
+    deploy:
+      restart_policy:
+        condition: any
     volumes:
       - ./shared/etc/master_config.json:/shared/etc/config.json
       - /data/fof_current/log/:/shared/log
@@ -17,9 +18,10 @@ services:
   notification:
     container_name: notification
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
     network_mode: fof-swarm
+    deploy:
+      restart_policy:
+        condition: any
     environment:
       - WXWORK_URL=https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=c1eefb72-d65c-4f7f-b30d-a2e8eb2e536e
     depends_on:
@@ -30,14 +32,15 @@ services:
     command: >
       bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
                 gun env register --init --docker_container &&
-                gun run nn --nt wxwork"
+                gun run nn --nt wxwork --disable_console_logger"
 
   oms:
     container_name: oms
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
     network_mode: fof-swarm
+    deploy:
+      restart_policy:
+        condition: any
     depends_on:
       - master
     volumes:
