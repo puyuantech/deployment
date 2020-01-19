@@ -5,9 +5,10 @@ services:
   mr:
     container_name: mr
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
     network_mode: fof-swarm
+    deploy:
+      restart_policy:
+        condition: any
     volumes:
       - ./shared/etc/basic_config.json:/shared/etc/basic_config.json
       - /data/fof_current/log/:/shared/log
@@ -19,8 +20,10 @@ services:
   mg-huobi:
     container_name: mg-huobi
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
     network_mode: fof-swarm
     depends_on:
       - mr
@@ -30,13 +33,15 @@ services:
     command: >
       bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
                 gun env register --init --docker_container &&
-                gun run mg -p cryptofx -g huobi -r market1 --sub snap:'*'"
+                gun run mg -p cryptofx -g huobi -r market1 --disable_console_logger --sub snap:'*'"
 
   mg-okex:
     container_name: mg-okex
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
     network_mode: fof-swarm
     depends_on:
       - mr
@@ -46,13 +51,15 @@ services:
     command: >
       bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
                 gun env register --init --docker_container &&
-                gun run mg -p cryptofx -g okex -r market1 --sub snap:'*'"
+                gun run mg -p cryptofx -g okex -r market1 --disable_console_logger --sub snap:'*'"
 
   mg-binance:
     container_name: mg-binance
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
     network_mode: fof-swarm
     depends_on:
       - mr
@@ -62,13 +69,15 @@ services:
     command: >
       bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
                 gun env register --init --docker_container &&
-                gun run mg -p cryptofx -g binance -r market1 --sub snap:'*'"
+                gun run mg -p cryptofx -g binance -r market1 --disable_console_logger --sub snap:'*'"
 
   mg-bitmex:
     container_name: mg-bitmex
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
     network_mode: fof-swarm
     depends_on:
       - mr
@@ -78,13 +87,15 @@ services:
     command: >
       bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
                 gun env register --init --docker_container &&
-                gun run mg -p cryptofx -g bitmex -r market1 --sub snap:'*'"
+                gun run mg -p cryptofx -g bitmex -r market1 --disable_console_logger --sub snap:'*'"
 
   mg-bitstamp:
     container_name: mg-bitstamp
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
     network_mode: fof-swarm
     depends_on:
       - mr
@@ -94,13 +105,15 @@ services:
     command: >
       bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
                 gun env register --init --docker_container &&
-                gun run mg -p cryptofx -g bitstamp -r market1 --sub snap:btc/usd"
+                gun run mg -p cryptofx -g bitstamp -r market1 --disable_console_logger --sub snap:btc/usd"
 
   mg-coinbase:
     container_name: mg-coinbase
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
     network_mode: fof-swarm
     depends_on:
       - mr
@@ -110,13 +123,15 @@ services:
     command: >
       bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
                 gun env register --init --docker_container &&
-                gun run mg -p cryptofx -g coinbase -r market1 --sub snap:btc/usd"
+                gun run mg -p cryptofx -g coinbase -r market1 --disable_console_logger --sub snap:btc/usd"
 
   mg-kraken:
     container_name: mg-kraken
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
     network_mode: fof-swarm
     depends_on:
       - mr
@@ -126,4 +141,4 @@ services:
     command: >
       bash -c " cp /shared/etc/basic_config.json /shared/etc/config.json &&
                 gun env register --init --docker_container &&
-                gun run mg -p cryptofx -g kraken -r market1 --sub snap:xbt/usd"
+                gun run mg -p cryptofx -g kraken -r market1 --disable_console_logger --sub snap:xbt/usd"

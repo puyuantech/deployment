@@ -4,9 +4,10 @@ services:
   trade1:
     container_name: trade1
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
     network_mode: fof-swarm
+    deploy:
+      restart_policy:
+        condition: any
     volumes:
       - ./shared/etc/trade1.json:/shared/etc/config.json
       - /data/fof_current/log/:/shared/log
@@ -18,9 +19,10 @@ services:
   trade2:
     container_name: trade2
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
     network_mode: fof-swarm
+    deploy:
+      restart_policy:
+        condition: any
     volumes:
       - ./shared/etc/trade2.json:/shared/etc/config.json
       - /data/fof_current/log/:/shared/log
@@ -28,13 +30,14 @@ services:
     command: >
       bash -c " gun env register --init --docker_container &&
                 gun run tr -f trade2"
-  
+
   trade3:
     container_name: trade3
     image: puyuantech/fof:latest
-    tty: true
-    stdin_open: true
     network_mode: fof-swarm
+    deploy:
+      restart_policy:
+        condition: any
     volumes:
       - ./shared/etc/trade3.json:/shared/etc/config.json
       - /data/fof_current/log/:/shared/log
