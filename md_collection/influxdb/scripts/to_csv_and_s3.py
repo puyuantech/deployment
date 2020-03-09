@@ -43,7 +43,7 @@ class SaveMDToS3:
     def _get_date_and_hour(self):
         end_datetime = datetime.datetime.now(pytz.timezone('Asia/Shanghai'))
         start_datetime = end_datetime - datetime.timedelta(hours=1)
-        old_datetime = start_datetime - datetime.timedelta(days=5)
+        old_datetime = start_datetime - datetime.timedelta(days=3)
         return old_datetime.strftime("%Y-%m-%d_%H"), start_datetime.strftime("%Y-%m-%d"), start_datetime.strftime("%Y-%m-%d_%H"), end_datetime.strftime("%Y-%m-%d_%H")
 
     def _get_timestamp(self, date):

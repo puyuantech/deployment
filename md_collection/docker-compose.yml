@@ -53,8 +53,8 @@ services:
         condition: any
       resources:
         limits:
-          cpus: '3'
-          memory: 6 G
+          cpus: '2'
+          memory: 2 G
     command: >
         bash -c "gun run mr -f market1 >> /shared/temp/log_market1 2>&1"
     depends_on:
@@ -73,8 +73,8 @@ services:
         condition: any
       resources:
         limits:
-          cpus: '1.5'
-          memory: 3 G
+          cpus: '2'
+          memory: 2 G
     command: >
         bash -c "gun run tr -f trade1 >> /shared/temp/log_trade1 2>&1"
     depends_on:
@@ -124,7 +124,7 @@ services:
           memory: 200 M
     command: >
         bash -c "sleep 1 &&
-                 gun run mg -g binance -p cryptofx --disable_console_logger --sub trade:'*' snap:'*' bar:'*' >> /shared/temp/log_mg_binance 2>&1"
+                 gun run mg -g binance -p cryptofx --sub trade:'*' snap:'*' bar:'*' >> /shared/temp/log_mg_binance 2>&1"
     depends_on:
       - dtl-market
     volumes:
@@ -146,7 +146,7 @@ services:
           memory: 200 M
     command: >
         bash -c "sleep 1 &&
-                 gun run mg -g bitmex -p cryptofx --disable_console_logger --sub trade:'*' snap:'*' bar:'*' >> /shared/temp/log_mg_bitmex 2>&1"
+                 gun run mg -g bitmex -p cryptofx --sub trade:'*' snap:'*' bar:'*' >> /shared/temp/log_mg_bitmex 2>&1"
     depends_on:
       - dtl-market
     volumes:
@@ -168,7 +168,7 @@ services:
           memory: 200 M
     command: >
         bash -c "sleep 1 &&
-                 gun run mg -g huobi -p cryptofx --disable_console_logger --sub trade:'*' snap:'*' bar:'*' >> /shared/temp/log_mg_huobi 2>&1"
+                 gun run mg -g huobi -p cryptofx --sub trade:'*' snap:'*' bar:'*' >> /shared/temp/log_mg_huobi 2>&1"
     depends_on:
       - dtl-market
     volumes:
@@ -190,7 +190,7 @@ services:
           memory: 200 M
     command: >
         bash -c "sleep 1 &&
-                 gun run mg -g okex -p cryptofx --disable_console_logger --sub trade:'*' snap:'*' bar:'*' >> /shared/temp/log_mg_okex 2>&1"
+                 gun run mg -g okex -p cryptofx --sub trade:'*' snap:'*' bar:'*' >> /shared/temp/log_mg_okex 2>&1"
     depends_on:
       - dtl-market
     volumes:
@@ -212,7 +212,7 @@ services:
           memory: 200 M
     command: >
         bash -c "sleep 1 &&
-                 gun run mg -g bybit -p cryptofx --disable_console_logger --sub trade:'*' snap:'*' bar:'*' >> /shared/temp/log_mg_bybit 2>&1"
+                 gun run mg -g bybit -p cryptofx --sub trade:'*' snap:'*' bar:'*' >> /shared/temp/log_mg_bybit 2>&1"
     depends_on:
       - dtl-market
     volumes:
@@ -234,7 +234,7 @@ services:
           memory: 200 M
     command: >
         bash -c "sleep 1 &&
-                 gun run mg -g bitstamp -p cryptofx --disable_console_logger --sub snap:btc/usd >> /shared/temp/log_mg_bitstamp 2>&1"
+                 gun run mg -g bitstamp -p cryptofx --sub snap:btc/usd >> /shared/temp/log_mg_bitstamp 2>&1"
     depends_on:
       - dtl-market
     volumes:
@@ -256,7 +256,7 @@ services:
           memory: 200 M
     command: >
         bash -c "sleep 1 &&
-                 gun run mg -g coinbase -p cryptofx --disable_console_logger --sub snap:btc/usd >> /shared/temp/log_mg_coinbase 2>&1"
+                 gun run mg -g coinbase -p cryptofx --sub snap:btc/usd >> /shared/temp/log_mg_coinbase 2>&1"
     depends_on:
       - dtl-market
     volumes:
@@ -278,7 +278,7 @@ services:
           memory: 200 M
     command: >
         bash -c "sleep 1 &&
-                 gun run mg -g kraken -p cryptofx --disable_console_logger --sub snap:xbt/usd >> /shared/temp/log_mg_kraken 2>&1"
+                 gun run mg -g kraken -p cryptofx --sub snap:xbt/usd >> /shared/temp/log_mg_kraken 2>&1"
     depends_on:
       - dtl-market
     volumes:
