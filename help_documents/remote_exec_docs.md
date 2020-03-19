@@ -19,10 +19,6 @@
     >> gun ip
     current public ip:  11.111.111.111
 
-### 安装 tmux
-
-    yum install -y tmux
-
 ## 二.远程机器准备
 
 ### 下载 Docker 镜像
@@ -31,7 +27,7 @@
 
 ### 启动容器
 
-    docker run -d -it --name traderslink puyuantech/traderslink-0.5:latest
+    docker run -d -it --network=host --name traderslink puyuantech/traderslink-0.5:latest
 
 ### 进入容器
 
@@ -57,14 +53,9 @@
         "accounts": {}
     }
 
-### 安装 tmux
+### 在后台运行远程服务
 
-    yum install -y tmux
-
-### 使用 tmux 后台运行远程服务
-
-    tmux new -s traderslink
-    gun remote run -s executor -H 11.111.111.111
+    gun remote run -s executor -H 11.111.111.111 &
 
 ## 三.本地机器配置
 
@@ -136,11 +127,6 @@
                 "public_ip": "11.111.111.111",
                 "env_name": "env1",
                 "private_ip": "11.111.111.111"
-            },
-            {
-                "public_ip": "22.222.222.222",
-                "env_name": "env2",
-                "private_ip": "22.222.222.222"
             }
         ],
         "gateway_reconnection_policy": {
@@ -175,14 +161,9 @@
     gun start mr -f market1
     gun start tr -f trade1
 
-### 安装 tmux
+### 在后台运行远程服务
 
-    yum install -y tmux
-
-### 使用 tmux 后台运行远程服务
-
-    tmux new -s traderslink
-    gun remote run -s dispatcher
+    gun remote run -s dispatcher &
 
 ### 使用远程服务启动交易网关
 
