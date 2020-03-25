@@ -1,6 +1,6 @@
 # 托管机远程运维部署文档
 
-## 一.本地机器准备
+## 一.本地机器配置
 
 ### 下载 Docker 镜像
 
@@ -19,7 +19,34 @@
     >> gun ip
     current public ip:  11.111.111.111
 
-## 二.远程机器准备
+### 修改配置文件
+
+    在 /shared/etc/config.json 文件中找到 "env_infos",
+    将 "env_infos" 中 "env_name" 为 "env1" 所在项的 "public_ip" 改为机器实际 ip (默认为 "127.0.0.1")
+    例如:
+    {
+        ......
+        "env_infos": [
+            {
+                "public_ip": "11.111.111.111",
+                "env_name": "env1",
+                "private_ip": "127.0.0.1"
+            }
+        ],
+        ......
+    }
+
+### 正常启动 master、行情路由和交易路由
+
+    gun start master
+    gun start mr -f market1
+    gun start tr -f trade1
+
+### 在后台运行远程服务
+
+    gun remote run -s dispatcher &
+
+## 二.远程托管机器配置
 
 ### 下载 Docker 镜像
 
@@ -57,116 +84,14 @@
 
     gun remote run -s executor -H 11.111.111.111 &
 
-## 三.本地机器配置
+## 三.本地机器通过远程命令在远程托管机上启动网关
 
-### 修改配置文件
-
-    使用以下配置覆盖 /shared/etc/config.json:
-    {
-        "config_version": "0.3",
-        "master_rep": "tcp://0.0.0.0:9000",
-        "master_rep_port": 9000,
-        "env": "env1",
-        "modules": [
-            {
-                "fist_type": "MASTER",
-                "fist_name": "master",
-                "addrs": {
-                    "Zmq_PUB": {
-                        "comm_method": "TCP",
-                        "port": 9001
-                    },
-                    "Zmq_REP": {
-                        "comm_method": "TCP",
-                        "port": 9000
-                    }
-                },
-                "source_id": 0
-            },
-            {
-                "fist_type": "MARKET_ROUTER",
-                "fist_name": "market1",
-                "addrs": {
-                    "Zmq_PULL": {
-                        "comm_method": "TCP",
-                        "port": 9002
-                    },
-                    "Zmq_PUB": {
-                        "comm_method": "TCP",
-                        "port": 9004
-                    },
-                    "Zmq_REP": {
-                        "comm_method": "TCP",
-                        "port": 9003
-                    }
-                },
-                "source_id": 1
-            },
-            {
-                "fist_type": "TRADE_ROUTER",
-                "fist_name": "trade1",
-                "addrs": {
-                    "Zmq_PULL": {
-                        "comm_method": "TCP",
-                        "port": 9005
-                    },
-                    "Zmq_PUB": {
-                        "comm_method": "TCP",
-                        "port": 9007
-                    },
-                    "Zmq_REP": {
-                        "comm_method": "TCP",
-                        "port": 9006
-                    }
-                },
-                "source_id": 2
-            }
-        ],
-        "env_infos": [
-            {
-                "public_ip": "11.111.111.111",
-                "env_name": "env1",
-                "private_ip": "11.111.111.111"
-            }
-        ],
-        "gateway_reconnection_policy": {
-            "max_retry_times": 20,
-            "retry_interval_in_seconds": 5
-        },
-        "notification_center": {
-            "slack": "",
-            "redis": {
-                "host": "",
-                "port": 6379,
-                "password": "",
-                "key": "notification"
-            }
-        },
-        "database": {
-            "development": {
-                "username": "",
-                "xport": 3306,
-                "db": "",
-                "host": "",
-                "password": "",
-                "port": 3306
-            },
-            "mode": "development"
-        }
-    }
-
-### 正常启动 master、行情路由和交易路由
-
-    gun start master
-    gun start mr -f market1
-    gun start tr -f trade1
-
-### 在后台运行远程服务
-
-    gun remote run -s dispatcher &
-
-### 使用远程服务启动交易网关
+### 启动网关
 
     例如:
     gun remote exec -c 'gun start mg -a xtp_market -g xtp'
     gun remote exec -c 'gun start tg -a xtp_trade -g xtp'
+
+### 使用 Linux 命令查看远程托管机状态等
+
+    gun remote exec -c 'ps aux'
