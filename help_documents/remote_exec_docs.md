@@ -54,7 +54,7 @@
 
 ### 启动容器
 
-    docker run -d -it --network=host --name traderslink puyuantech/traderslink-0.5:latest
+    docker run -d -it --network=host -v ~/config.json:/shared/etc/config.json -v ~/log:/shared/log --name traderslink puyuantech/traderslink-0.5:latest
 
 ### 进入容器
 
