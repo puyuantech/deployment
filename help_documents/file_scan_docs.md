@@ -9,11 +9,11 @@
 
 ### 下载 Docker 镜像
 
-    docker pull puyuantech/traderslink:0.6.15
+    docker pull puyuantech/traderslink:0.6.16
 
 ### 启动容器
 
-    docker run -d -it -p 9000-9007:9000-9007 --name traderslink puyuantech/traderslink:0.6.15
+    docker run -d -it -p 9000-9007:9000-9007 --name traderslink puyuantech/traderslink:0.6.16
 
 ### 进入容器
 
@@ -47,7 +47,7 @@
 
 ### 2.1 安装 Python 依赖包
 
-    pip install tlclient==0.6.15
+    pip install tlclient==0.6.16
     pip install dbfread
 
 ### 2.2 请联系 Puyuan Tech 获取 impl-pytg
@@ -104,6 +104,11 @@
     下单、查持仓、查账户、查全量订单接口中都需要传入参数 sub_account，并且 sub_account 需要是配置的多账户中的一项，否则均会拒单。
     ps: 撤单不需要传入参数 sub_account，只需要传入 order_id 即可。
     ps: 只配置了单账户的话，所有接口均不需要传入参数 sub_account。
+
+### 3.2 CATS 缓存订单数据库配置说明
+
+    CATS 在扫单配置中如果配置了 `cached_orders_path` 字段的话，就会在该数据库中缓存下当前的所有订单，并且在网关重启后也会重新读取缓存的订单。
+    ps: 删除 `cached_orders_path` 字段或者值填为空，不会配置缓存订单数据库。
 
 ## 四.测试
 
