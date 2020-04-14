@@ -9,11 +9,11 @@
 
 ### 下载 Docker 镜像
 
-    docker pull puyuantech/traderslink:0.6.16
+    docker pull puyuantech/traderslink:0.6.19
 
 ### 启动容器
 
-    docker run -d -it -p 9000-9007:9000-9007 --name traderslink puyuantech/traderslink:0.6.16
+    docker run -d -it -p 9000-9007:9000-9007 --name traderslink puyuantech/traderslink:0.6.19
 
 ### 进入容器
 
@@ -47,7 +47,7 @@
 
 ### 2.1 安装 Python 依赖包
 
-    pip install tlclient==0.6.16
+    pip install tlclient==0.6.19
     pip install dbfread
 
 ### 2.2 请联系 Puyuan Tech 获取 impl-pytg
@@ -96,6 +96,29 @@
 
 在 `impl-pytg/python` 目录下执行 `python -m gateways.cats.tg_cats` 即可。
 
+### 2.6 QMT 扫单配置
+
+#### 2.6.1 账户配置
+
+在 `impl-pytg/python/gateways/qmt/tg_qmt.py` 文件最后
+
+    填入 `file_dir`(指令文件目录)。
+    指令文件目录要求与扫单策略中的指令文件目录一致。
+
+`file_dir` 填写格式为 `'c:\\code\\qmt'` 或者 `r'c:\code\qmt'` 或者 `'c:/code/qmt'`
+
+#### 2.6.2 在 QMT 程序中添加文件扫单策略
+
+请使用 `impl-pytg/resource/FILEORDER_TIMER.py` 作为本程序配套的策略。
+
+在策略文件中的 `init` 函数中
+
+    填入 `ContextInfo.acc_id`(账户ID) 和 `file_dir`(指令文件目录)。
+
+#### 2.6.3 启动 QMT 交易网关
+
+在 `impl-pytg/python` 目录下执行 `python -m gateways.qmt.tg_qmt` 即可。
+
 ## 三.注意事项
 
 ### 3.1 CATS 多账户配置说明
@@ -109,6 +132,16 @@
 
     CATS 在扫单配置中如果配置了 `cached_orders_path` 字段的话，就会在该数据库中缓存下当前的所有订单，并且在网关重启后也会重新读取缓存的订单。
     ps: 删除 `cached_orders_path` 字段或者值填为空，不会配置缓存订单数据库。
+
+### 3.3 QMT 回报会触发两次推送
+
+    在策略的模型日志 debug 是可以发现 QMT 的回报会被触发两次调用的，时间间隔极短。（可以在写的文件中看到数据有重复）
+    所以目前通过更新时间不带毫秒，就能得到两条一模一样的推送，然后去重，在程序中只推送一遍。
+    但是像撤单这种，无论撤单成功还是失败都会导致推送多条状态为 已撤/已拒 的订单，并且有时还会隔一段时间就推送一次这些 order，而且由于时间不一样，因此无法去重过滤。
+
+### 3.4 QMT 无撤单反馈
+
+    由于 QMT 文档中没有撤单结果的回调，因此只能通过 order 的状态是否为已撤来判断是否撤单成功。
 
 ## 四.测试
 
