@@ -119,6 +119,25 @@
 
 在 `impl-pytg/python` 目录下执行 `python -m gateways.qmt.tg_qmt` 即可。
 
+### 2.7 Eastmoney 扫单配置
+
+#### 2.7.1 账户配置
+
+在 `impl-pytg/python/gateways/eastmoney/tg_eastmoney.py` 文件最后
+
+    填入 `file_dir`(指令文件目录)。
+    指令文件目录要求与扫单策略中的指令文件目录一致。
+    Eastmoney 的扫单文件夹须命名为 `智能交易文本扫单` + 资金账户ID, 例如:
+    `C:\智能交易文本扫单540700040008`
+
+#### 2.7.2 在 Eastmoney 程序中进行扫单配置
+
+在 Eastmoney 软件中 `VIP -> 文本交易 -> 文本扫单` 界面选择导入的文件类型为 `CSV文件`, 然后配置 `指定文件夹` 目录。
+
+#### 2.7.3 启动 Eastmoney 交易网关
+
+在 `impl-pytg/python` 目录下执行 `python -m gateways.eastmoney.tg_eastmoney` 即可。
+
 ## 三.注意事项
 
 ### 3.1 CATS 多账户配置说明
@@ -142,6 +161,27 @@
 ### 3.4 QMT 无撤单反馈
 
     由于 QMT 文档中没有撤单结果的回调，因此只能通过 order 的状态是否为已撤来判断是否撤单成功。
+
+### 3.5 兴业 req_active_orders 接口缺失 update_time 字段
+
+    暂时处理为 update_time 等于 create_time。
+
+### 3.6 Eastmoney 撤单测试不完全
+
+Eastmoney 返回字段无文档。
+
+    由于测试过程中 Eastmoney 总是对下的任意单都立即成交一半，之后就挂单在那里无反应了。
+    所以还有两个问题没有解决：
+    一个是无成交撤单返回的订单状态是否为 `已撤`。
+        如果不是的话，将会导致状态解析出错。
+        返回的 RtnOrder 的订单状态为 `NOT_AVAILABLE` 而不是 `CANCELED`。
+    二是订单信息中的 `成交数量` 的含义。
+        如果代表的是 `上次成交数量`，那么 RtnOrder 中的 `traded_vol` 字段代表的就是 `上次成交数量`。
+        如果代表的是 `已成交数量`，那么目前计算出的 trade 的 `成交数量` 就会有问题。
+
+### 3.7 Eastmoney RtnOrder 缺失 create_time 字段
+
+    暂时处理为 create_time 等于 update_time。
 
 ## 四.测试
 
