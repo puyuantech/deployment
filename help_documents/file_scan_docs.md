@@ -9,11 +9,11 @@
 
 ### 下载 Docker 镜像
 
-    docker pull puyuantech/traderslink:0.6.19
+    docker pull puyuantech/traderslink:0.6.25
 
 ### 启动容器
 
-    docker run -d -it -p 9000-9007:9000-9007 --name traderslink puyuantech/traderslink:0.6.19
+    docker run -d -it -p 9000-9007:9000-9007 --name traderslink puyuantech/traderslink:0.6.25
 
 ### 进入容器
 
@@ -47,7 +47,7 @@
 
 ### 2.1 安装 Python 依赖包
 
-    pip install tlclient==0.6.19
+    pip install tlclient==0.6.25
     pip install dbfread
 
 ### 2.2 请联系 Puyuan Tech 获取 impl-pytg
