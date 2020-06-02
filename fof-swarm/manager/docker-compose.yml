@@ -3,7 +3,7 @@ version: "3.7"
 services:
   master:
     container_name: master
-    image: puyuantech/fof:latest
+    image: puyuantech/fof-0.5:latest
     network_mode: fof-swarm
     deploy:
       restart_policy:
@@ -17,7 +17,7 @@ services:
 
   notification:
     container_name: notification
-    image: puyuantech/fof:latest
+    image: puyuantech/fof-0.5:latest
     network_mode: fof-swarm
     deploy:
       restart_policy:
@@ -36,11 +36,13 @@ services:
 
   oms:
     container_name: oms
-    image: puyuantech/fof:latest
+    image: puyuantech/fof-0.5:latest
     network_mode: fof-swarm
     deploy:
       restart_policy:
         condition: any
+    environment:
+      - CONSOLE_LOG_LEVEL=off
     depends_on:
       - master
     volumes:
@@ -54,7 +56,7 @@ services:
   # run fof related services
   fof:
     container_name: fof
-    image: puyuantech/fof:latest
+    image: puyuantech/fof-0.5:latest
     tty: true
     stdin_open: true
     network_mode: fof-swarm
