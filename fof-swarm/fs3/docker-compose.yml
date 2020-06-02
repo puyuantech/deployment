@@ -3,7 +3,7 @@ version: "3.7"
 services:
   trade4:
     container_name: trade4
-    image: puyuantech/fof:latest
+    image: puyuantech/fof-0.5:latest
     network_mode: fof-swarm
     deploy:
       restart_policy:
@@ -18,7 +18,7 @@ services:
 
   trade5:
     container_name: trade5
-    image: puyuantech/fof:latest
+    image: puyuantech/fof-0.5:latest
     network_mode: fof-swarm
     deploy:
       restart_policy:
@@ -33,7 +33,7 @@ services:
 
   trade6:
     container_name: trade6
-    image: puyuantech/fof:latest
+    image: puyuantech/fof-0.5:latest
     network_mode: fof-swarm
     deploy:
       restart_policy:
