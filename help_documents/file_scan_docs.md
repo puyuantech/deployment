@@ -9,11 +9,11 @@
 
 ### 下载 Docker 镜像
 
-    docker pull puyuantech/traderslink:0.6.27
+    docker pull puyuantech/traderslink:0.6.45
 
 ### 启动容器
 
-    docker run -d -it -p 9000-9007:9000-9007 --name traderslink puyuantech/traderslink:0.6.27
+    docker run -d -it -p 9000-9007:9000-9007 --name traderslink puyuantech/traderslink:0.6.45
 
 ### 进入容器
 
@@ -47,7 +47,7 @@
 
 ### 2.1 安装 Python 依赖包
 
-    pip install tlclient==0.6.27
+    pip install tlclient==0.6.45
     pip install dbfread
 
 ### 2.2 请联系 Puyuan Tech 获取 impl-pytg
@@ -138,7 +138,27 @@
 
 在 `impl-pytg/python` 目录下执行 `python -m gateways.eastmoney.tg_eastmoney` 即可。
 
+### 2.8 DMA 扫单配置
+
+#### 2.8.1 账户配置
+
+在 `impl-pytg/python/gateways/dma/tg_dma.py` 文件最后
+
+    填入 `account_id`(资金账户)、`account_type`(账户类型) 和 `file_dir`(指令文件目录)。
+    指令文件目录要求与扫单策略中的指令文件目录一致。
+
+#### 2.8.2 启动 DMA 算法扫单程序
+
+#### 2.8.3 启动 DMA 交易网关
+
+在 `impl-pytg/python` 目录下执行 `python -m gateways.dma.tg_dma` 即可。
+
 ## 三.注意事项
+
+### 3.0 扫单程序环境配置问题
+
+    扫单程序默认配置为 env_name='env1', addr='tcp://localhost:9000', 代表 Docker 与扫单程序在一台机器上。
+    如果 Docker 与扫单程序分开部署, 扫单程序的 env_name 不能与 master 所在环境的 env_name(默认为'env1') 同名, 'localhost' 需改成 master 所在机器实际 ip。
 
 ### 3.1 CATS 多账户配置说明
 
